@@ -1,6 +1,11 @@
-#import your controller
+import pygame
 
 def main():
+   pygame.init()
+   team= {"lead": "Conner Smith", "backend": "?", "frontend": "?"}
+   print("Software Lead is:", team["lead"])
+   print("Backend is:", team["backend"])
+   print("Frontend is:", team["frontend"])
     #Create an instance on your controller object
     #Call your mainloop
     
