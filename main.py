@@ -2,7 +2,7 @@ import pygame
 
 def main():
    pygame.init()
-   team= {"lead": "Conner Smith", "backend": "?", "frontend": "?"}
+   team= {"lead": "Conner Smith", "backend": "?", "frontend": "Connor Meybohm"}
    print("Software Lead is:", team["lead"])
    print("Backend is:", team["backend"])
    print("Frontend is:", team["frontend"])
