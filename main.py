@@ -1,8 +1,8 @@
 import pygame
-
+class 
 def main():
    pygame.init()
-   team= {"lead": "Conner Smith", "backend": "?", "frontend": "?"}
+   team= {"lead": "Conner Smith", "backend": "Adejo", "frontend": "Connor Meyborn"}
    print("Software Lead is:", team["lead"])
    print("Backend is:", team["backend"])
    print("Frontend is:", team["frontend"])
