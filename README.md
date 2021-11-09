@@ -23,8 +23,8 @@
 * << A wireframe or drawing of the user interface concept along with a short description of the interface. You should have one for each screen in your program. >>
     * For example, if your program has a start screen, game screen, and game over screen, you should include a wireframe / screenshot / drawing of each one and a short description of the components
 * << You should also have a screenshot of each screen for your final GUI >>
-
-***        
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/Snapchat-174583180.jpg)
+***        ![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/Snapchat-569155497.jpg)
 
 ## Program Design *(Backend Specialist)*
 * Non-Standard libraries
