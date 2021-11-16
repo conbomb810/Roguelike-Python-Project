@@ -10,12 +10,12 @@
 << [link to demo presentation slides](#) >>
 
 ### Team: << team name >>
-#### << Team Members >>
+#### << Middle team >>
 
 ***
 
 ## Project Description *(Software Lead)*
-<< Give an overview of your project >>
+<< our project will be a dungeon game that will include randomized enemies and a single hero that can be customized by choosing a different kit/class.>>
 
 ***    
 
