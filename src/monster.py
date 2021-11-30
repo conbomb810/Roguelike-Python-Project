@@ -11,8 +11,8 @@ class monster(pygame.sprite.Sprite):
       self.speed = 10
       self.rect.x = start_coordx
       self.rect.y = start_coordy 
-      "setting parameters for starting position and also setting the health of the monster."
+      """setting parameters for starting position and also setting the health of the monster."""
    def attack(self)
-   "will be collision attack"   
+   """will be collision attack"""   
    def move(self)
-   "stationary for time being"
+   """stationary for time being"""

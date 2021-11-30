@@ -16,7 +16,7 @@ class Hero(pygame.sprite.Sprites):
       self.max_health
       self.bar_len = 400
       self.health.ratio = self.max_health/self.bar_len
-   "sets image for characted adjust size, also sets size of hitbox for collision attacks"
+   """sets image for characted adjust size, also sets size of hitbox for collision attacks"""
    
    def move(self.direction)
       if direction == "U":
@@ -27,7 +27,7 @@ class Hero(pygame.sprite.Sprites):
          self.rect.x += self.speed
       elif+direction == "R":
          self.rect x -= self.speed
-   "the vertical and horizontal movement for character"
+   """the vertical and horizontal movement for character"""
   
    def getDamage(self, amount):
       if self.health > 0:
@@ -35,13 +35,14 @@ class Hero(pygame.sprite.Sprites):
       if self.health =< 0:
          self.health = 0
 
-
+"""sets damage"""
    def getHealth(self, amount)
       if self.health < self.max_health:
          self.health += amount
       if self.health >= self.max_health:
          self.health = self.max_health
 #for getdamage and get healthfunc, must be added to event loop. when monster attacks hero health bar must go down
+"""keeps health inside bar"""
    def heroHealth(self)
       pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
       pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
