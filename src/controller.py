@@ -15,31 +15,26 @@ class controller:
 
         #font stuff
         pygame.font.init()
-        #self.font = pygame.font.SysFont("caladea", 48)
 
         self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
-        self.background = pygame.image.load("assets/mountainTestBackground.jpg").convert_alpha()
+        self.background1 = pygame.image.load("assets/mountainTestBackground.jpg").convert_alpha()
+        self.background2 = pygame.Surface((self.screenWidth, self.screenHeight))
+        self.background2.fill((170, 170, 170))
 
-        
+
+        self.hero = None        
         self.highscore = highscore.highscore(500, 200)
         self.monsters = pygame.sprite.Group()
         
 
-#------------------LOOPS BELOW------------------------
-#-----------------------------------------------------
+#---------------------START MENU LOOP------------------------
+#------------------------------------------------------------
 
 
     def startMenuLoop(self):
-        #initialization
-        #startButton = self.font.render("Start", False, (0,0,0), (255,255,255))
-        #startButtonCenter = startButton.get_rect(center=(self.screenWidth/2, self.screenHeight/2))
-        #quitButton = self.font.render("Quit", False, (0,0,0), (255,0,0))
-        #quitButtonCenter = quitButton.get_rect(center=(self.screenWidth/2, self.screenHeight*3/4))
         startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
-        quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Start", 48, (0,0,0), (255,0,0))
-
-        #start = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48)
-        #buttons = pygame.sprite.Group(startButton, quitButton)
+        quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
+        allSprites = pygame.sprite.Group((startButton,) + (quitButton,))
 
         #event loop
         for e in pygame.event.get():
@@ -47,41 +42,50 @@ class controller:
                 exit()
             elif e.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
-                if startButton.get_rect().collidepoint(mouse):
+                if startButton.rect.collidepoint(mouse):
+                    self.state = "classMenu"
+                elif quitButton.rect.collidepoint(mouse):
                     exit()
-                #clickedSprites = [s for s in buttons if s.rect.collidepoint(mouse)]
-                #if clickedSprites[0] == startButton:
-                    #self.state = "classMenu"
-#pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pos()[0] >= 400 and pygame.mouse.get_pos()[0] <= 600 and pygame.mouse.get_pos()[1] >= 500 and pygame.mouse.get_pos()[0] >= 600:
-                #exit()
 
         #update models
         
         #redraw
-        self.screen.blit(self.background, (0,0))
-        self.screen.blit(startButton, (startButton.rect.x, startButton.rect.y))
-        self.screen.blit(quitButton, (quitButton.rect.x, quitButton.rect.y))
+        self.screen.blit(self.background1, (0,0))
+        allSprites.draw(self.screen)
         
         #update screen
         pygame.display.flip()
             
 
-#-----------------------------------------------------------
-#-----------------------------------------------------------
+#-----------------------CLASS MENU LOOP-----------------------
+#-------------------------------------------------------------
 
     def classMenuLoop(self):
-        samurai = Hero('samurai', 500, 'health pot', 200)
+        samurai = hero.Hero('samurai', 500, 'health pot', 200) #this info will be imported from a JSON file
+        samuraiButton = button.button(self.screenWidth/4, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
+        allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
+
         #test class
         #need to draw the hero and monsterssamurai
         #draw healthbars
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 exit()
-            #mouse cursor on selection boxes checks (each class and startgame button)
+            elif e.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
+                if samuraiButton.rect.collidepoint(mouse):
+                    self.hero = samurai
+                    print(self.hero)
+                    self.state = "battleLoop"
+            #add more classes once we have it set up correctly
 
         #update data
 
         #redraw
+        self.screen.blit(self.background2, (0,0))
+        allSprites.draw(self.screen)
+        #update screen
+        pygame.display.flip()
 
 #-----------------------------------------------------------------
 #---------------------Bellow is Battle Loop-----------------------
