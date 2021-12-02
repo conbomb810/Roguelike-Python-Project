@@ -4,6 +4,7 @@ import random
 #need to import monster datat from text file
 #Shrink the size of the image to a manageable level
 #Allow controller to send arguments for the position of the Hero's image on screen (rect.x and rect.y i believe)
+#Make a list of moves the Hero can choose from
 
 class Hero(pygame.sprite.Sprite):
    def __init__(self, name, health, potion, strength):
@@ -72,8 +73,6 @@ class Hero(pygame.sprite.Sprite):
       #values must be edited for size of window
       pass
 
-   def attack(self):
-      pass
    def defend(self):
       pass
    
