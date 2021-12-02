@@ -1,8 +1,14 @@
 import pygame
 import random
 
+<<<<<<< HEAD
 class Hero(pygame.sprite.Sprites):
 #need to import monster datat from text file
+=======
+#NOTE FROM CONNOR M: I'm getting too many errors from just importing this, im gonna focus on controller while this gets fixed
+
+class Hero(pygame.sprite.Sprite):
+>>>>>>> 823f23538236b658b2dba85007f8ea4b71455708
    def __init__(self, name, health, potion, strength):
       super().__init__()
       self.image = pygame.image.load('assets/samarai.png').convert_alpha()
@@ -26,10 +32,13 @@ class Hero(pygame.sprite.Sprites):
 
    
    def update(self):
-      def self.hero_health()
+      self.hero_health()
 
+<<<<<<< HEAD
    def magic(self, hero):
 
+=======
+>>>>>>> 823f23538236b658b2dba85007f8ea4b71455708
    def attack(self, monster): #damage to monster
       rand = random.randint(-50, 50)
       damage = self.strength + rand
@@ -43,27 +52,37 @@ class Hero(pygame.sprite.Sprites):
 
    def get_damage(self, amount):
       if self.health > 0:
-         self.current_health -+ amount
-      if self.health =< 0:
+         self.current_health -= amount
+      else:
          self.health = 0
    """
    sets damage
    """
 
+<<<<<<< HEAD
+=======
+   """sets damage"""
+>>>>>>> 823f23538236b658b2dba85007f8ea4b71455708
    def get_health(self, amount):
       if self.health < self.max_health:
          self.health += amount
       if self.health >= self.max_health:
          self.health = self.max_health
 #for getdamage and get healthfunc, must be added to event loop. when monster attacks hero health bar must go down
+<<<<<<< HEAD
 """keeps health inside bar"""
    def hero_health(self):
       pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
+=======
+   """keeps health inside bar"""
+   def hero_health(self):
+      pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25))
+>>>>>>> 823f23538236b658b2dba85007f8ea4b71455708
       pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
       #values must be edited for size of window
 
-   def attack(self)
-      
-   def defend(self)
-   
+   def attack(self):
+      pass
+   def defend(self):
+      pass
    
