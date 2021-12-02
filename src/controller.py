@@ -1,24 +1,39 @@
 import pygame
 from src import highscore
 from src import hero
-from src import monster
+#from src import monster
 
-class Controller:
+class controller:
     def __init__(self):
-        self.state = "startMenu"
+        self.screenWidth = 1280
+        self.screenHeight = 720
+        
         pygame.init()
+        self.state = "startMenu"
+        
 
-        self.screen = pygame.display.set_mode((1200,700))
-        self.background = pygame.Surface((1200,700))
-        self.background.fill((250, 15, 250))
-
+        #font stuff
         pygame.font.init()
+        self.font = pygame.font.SysFont("caladea", 48)
 
+        self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
+        self.background = pygame.image.load("assets/mountainTestBackground.jpg").convert_alpha()
+
+        
         self.highscore = highscore.highscore(500, 200)
         self.monsters = pygame.sprite.Group()
         
 
+#------------------LOOPS BELOW------------------------
+#-----------------------------------------------------
+
+
     def startMenuLoop(self):
+        #initialization
+        startButton = self.font.render("Start", False, (0,0,0), (255,255,255))
+        startButtonCenter = startButton.get_rect(center=(self.screenWidth/2, self.screenHeight/2))
+
+
         #event loop
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -28,20 +43,23 @@ class Controller:
                 #exit()
 
         #update models
-        background = pygame.image.load(‘assets/mountainTestBackground.jpg’).convert_alpha()
         
         #redraw
-        
+        self.screen.blit(self.background, (0,0))
+        self.screen.blit(startButton, startButtonCenter)
         
         #update screen
         pygame.display.flip()
             
 
+#-----------------------------------------------------------
+#-----------------------------------------------------------
+
     def classMenuLoop(self):
-samarai = Hero('samarai', 500, 'health pot', 200)
-#test class
-#need to draw the hero and monsters
-#draw healthbars
+        samurai = Hero('samurai', 500, 'health pot', 200)
+        #test class
+        #need to draw the hero and monsterssamurai
+        #draw healthbars
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 exit()
@@ -62,7 +80,7 @@ samarai = Hero('samarai', 500, 'health pot', 200)
     def playerTurnLoop(self):
         #actions allowed during player turn
         #event loop
-        for e in range("HERO ACTIONS AMOUNT")
+        for e in range(10):#"HERO ACTIONS AMOUNT"):
             
             if e.type == pygame.QUIT:
                 exit()
@@ -95,7 +113,7 @@ samarai = Hero('samarai', 500, 'health pot', 200)
         #check if player is dead, if not change to playerTurnLoop
         if self.hero.health <= 0:
             self.state = "gameOver"
-        elif:
+        else:
             self.state = "playerTurn"
 
         
@@ -105,21 +123,20 @@ samarai = Hero('samarai', 500, 'health pot', 200)
 
     def battleLoop(self):
         #instantiate battle
-        for e in range("IMPORT DATA FROM FILE")
-            self.monsters.add(monster.monster("INSERT MONSTER DATA FROM FILE"))
+        for e in range(10):#"IMPORT DATA FROM FILE"):
+            pass#self.monsters.add(monster.monster("INSERT MONSTER DATA FROM FILE"))
 
         #this will be two different loops, playerTurnLoop and monsterTurnLoop
-        while self.state == "playerTurn"
+        while self.state == "playerTurn":
             playerTurnLoop()
-        while self.state == "monsterTurn"
+        while self.state == "monsterTurn":
             monsterTurnLoop()
 
 #-----------------------------------------------------------------
 #-----------------------------------------------------------------
 
     def gameOverLoop(self):
-        #loop for when player dies
-
+        pass#loop for when player dies
 
     def mainloop(self):
         while self.state == "startMenu":
