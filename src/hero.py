@@ -2,6 +2,7 @@ import pygame
 import random
 
 class Hero(pygame.sprite.Sprites):
+#need to import monster datat from text file
    def __init__(self, name, health, potion, strength):
       super().__init__()
       self.image = pygame.image.load('assets/samarai.png').convert_alpha()
@@ -12,7 +13,7 @@ class Hero(pygame.sprite.Sprites):
       self.alive = True
       self.name = name
       self.strength = strength
-      self.potion = potion 
+      self.buff = buff 
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
@@ -20,20 +21,24 @@ class Hero(pygame.sprite.Sprites):
    #all stats can change based on what class is chosen, this is for testing. 
    """sets image for characted adjust size, also sets size of hitbox for collision attacks"""
    
-   def draw(self)
+   def draw(self):
       self.blit(self.image, (self.rect.x, self.rect.y))
 
    
    def update(self):
       def self.hero_health()
 
-   def attack(self, monster) #damage to monster
+   def magic(self, hero):
+
+   def attack(self, monster): #damage to monster
       rand = random.randint(-50, 50)
       damage = self.strength + rand
       monster.health -= damage
       if monster.health < 1:
          monster.health = 0
-    
+    """
+   calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
+   """
          
 
    def get_damage(self, amount):
@@ -41,16 +46,18 @@ class Hero(pygame.sprite.Sprites):
          self.current_health -+ amount
       if self.health =< 0:
          self.health = 0
+   """
+   sets damage
+   """
 
-"""sets damage"""
-   def get_health(self, amount)
+   def get_health(self, amount):
       if self.health < self.max_health:
          self.health += amount
       if self.health >= self.max_health:
          self.health = self.max_health
 #for getdamage and get healthfunc, must be added to event loop. when monster attacks hero health bar must go down
 """keeps health inside bar"""
-   def hero_health(self)
+   def hero_health(self):
       pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
       pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
       #values must be edited for size of window
