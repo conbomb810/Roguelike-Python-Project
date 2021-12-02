@@ -1,6 +1,9 @@
 import pygame
 import random
 
+class Hero(pygame.sprite.Sprites):
+#need to import monster datat from text file
+
 class Hero(pygame.sprite.Sprite):
    def __init__(self, name, health, potion, strength):
       super().__init__()
@@ -12,7 +15,7 @@ class Hero(pygame.sprite.Sprite):
       self.alive = True
       self.name = name
       self.strength = strength
-      self.potion = potion 
+      self.buff = buff 
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
@@ -27,13 +30,18 @@ class Hero(pygame.sprite.Sprite):
    def update(self):
       self.hero_health()
 
+
+   def magic(self, hero):
+
    def attack(self, monster): #damage to monster
       rand = random.randint(-50, 50)
       damage = self.strength + rand
       monster.health -= damage
       if monster.health < 1:
          monster.health = 0
-    
+    """
+   calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
+   """
          
 
    def get_damage(self, amount):
@@ -41,17 +49,20 @@ class Hero(pygame.sprite.Sprite):
          self.current_health -= amount
       else:
          self.health = 0
+   """
+   sets damage
+   """
 
-   """sets damage"""
    def get_health(self, amount):
       if self.health < self.max_health:
          self.health += amount
       if self.health >= self.max_health:
          self.health = self.max_health
 #for getdamage and get healthfunc, must be added to event loop. when monster attacks hero health bar must go down
-   """keeps health inside bar"""
+<<<<<<< HEAD
+"""keeps health inside bar"""
    def hero_health(self):
-      pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25))
+      pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
       pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
       #values must be edited for size of window
 

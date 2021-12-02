@@ -3,8 +3,8 @@ import random
 class monster(pygame.sprite.Sprite):
    
    def __init__(self, health, x, y):
+#need to import hero class data from text file
       super().__init__()
-      self.health = 200
       self.image = pygame.image.load('assets/monster.png').convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(25, 25)
@@ -26,7 +26,9 @@ class monster(pygame.sprite.Sprite):
       hero.health -= damage
       if hero.health < 1:
          hero.health = 0
-
+   """
+   calculates damage and adds randomized amount to it, then substracts that from health of hero
+   """
    def update(self):
       def self.hero_health()
 
@@ -48,8 +50,5 @@ class monster(pygame.sprite.Sprite):
       pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
       pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
       #values must be edited for size of window   
+ 
 
-   def attack(self)
-   """will be collision attack"""   
-   def move(self)
-   """stationary for time being"""
