@@ -1,8 +1,6 @@
 import pygame
 import random
 
-#NOTE FROM CONNOR M: I'm getting too many errors from just importing this, im gonna focus on controller while this gets fixed
-
 class Hero(pygame.sprite.Sprite):
    def __init__(self, name, health, potion, strength):
       super().__init__()

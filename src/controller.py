@@ -1,7 +1,7 @@
 import pygame
 from src import highscore
 from src import hero
-#from src import button
+from src import button
 #from src import monster
 
 class controller:
@@ -15,7 +15,7 @@ class controller:
 
         #font stuff
         pygame.font.init()
-        self.font = pygame.font.SysFont("caladea", 48)
+        #self.font = pygame.font.SysFont("caladea", 48)
 
         self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
         self.background = pygame.image.load("assets/mountainTestBackground.jpg").convert_alpha()
@@ -31,10 +31,12 @@ class controller:
 
     def startMenuLoop(self):
         #initialization
-        startButton = self.font.render("Start", False, (0,0,0), (255,255,255))
-        startButtonCenter = startButton.get_rect(center=(self.screenWidth/2, self.screenHeight/2))
-        quitButton = self.font.render("Quit", False, (0,0,0), (255,0,0))
-        quitButtonCenter = quitButton.get_rect(center=(self.screenWidth/2, self.screenHeight*3/4))
+        #startButton = self.font.render("Start", False, (0,0,0), (255,255,255))
+        #startButtonCenter = startButton.get_rect(center=(self.screenWidth/2, self.screenHeight/2))
+        #quitButton = self.font.render("Quit", False, (0,0,0), (255,0,0))
+        #quitButtonCenter = quitButton.get_rect(center=(self.screenWidth/2, self.screenHeight*3/4))
+        startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
+        quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Start", 48, (0,0,0), (255,0,0))
 
         #start = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48)
         #buttons = pygame.sprite.Group(startButton, quitButton)
@@ -45,6 +47,8 @@ class controller:
                 exit()
             elif e.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
+                if startButton.get_rect().collidepoint(mouse):
+                    exit()
                 #clickedSprites = [s for s in buttons if s.rect.collidepoint(mouse)]
                 #if clickedSprites[0] == startButton:
                     #self.state = "classMenu"
@@ -55,8 +59,8 @@ class controller:
         
         #redraw
         self.screen.blit(self.background, (0,0))
-        self.screen.blit(startButton, startButtonCenter)
-        self.screen.blit(quitButton, quitButtonCenter)
+        self.screen.blit(startButton, (startButton.rect.x, startButton.rect.y))
+        self.screen.blit(quitButton, (quitButton.rect.x, quitButton.rect.y))
         
         #update screen
         pygame.display.flip()
