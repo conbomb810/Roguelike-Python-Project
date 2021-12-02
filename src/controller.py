@@ -6,6 +6,11 @@ from src import button
 
 class controller:
     def __init__(self):
+        """
+        This is to instantiate the controller class and set everything up for other methods
+        Args: None
+        Return: None
+        """
         self.screenWidth = 1280
         self.screenHeight = 720
         
@@ -32,6 +37,11 @@ class controller:
 
 
     def startMenuLoop(self):
+        """
+        This is the loop for the starting menu of the game
+        Args: None
+        Return: None
+        """
         startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
         quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
         allSprites = pygame.sprite.Group((startButton,) + (quitButton,))
@@ -61,6 +71,11 @@ class controller:
 #-------------------------------------------------------------
 
     def classMenuLoop(self):
+        """
+        This is the loop to select the class you choose to play as in the game
+        Args: None
+        Return: None
+        """
         samurai = hero.Hero('samurai', 500, 'health pot', 200) #this info will be imported from a JSON file
         samuraiButton = button.button(self.screenWidth/4, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
         allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
@@ -75,7 +90,6 @@ class controller:
                 mouse = pygame.mouse.get_pos()
                 if samuraiButton.rect.collidepoint(mouse):
                     self.hero = samurai
-                    print(self.hero)
                     self.state = "battleLoop"
             #add more classes once we have it set up correctly
 
@@ -94,7 +108,7 @@ class controller:
     #MAKE USE OF UPDATE METHODS
     #USE THE UPDATE METHOD IN monster.py TO CHANGE ITS HEALTH ACCORDING TO DAMAGE TAKEN FROM PLAYER
     #USE THE UPDATE METHOD IN hero.py TO CHANGE ITS HEALTH ACCORDING TO DAMAGE TAKEN FROM MONSTERS
-
+    """
     def playerTurnLoop(self):
         #actions allowed during player turn
         #event loop
@@ -133,22 +147,48 @@ class controller:
             self.state = "gameOver"
         else:
             self.state = "playerTurn"
-
+    """
         
-        
-            
-    
-
     def battleLoop(self):
+        """
+        This is the loop that will handle the majority of the game's functionalities, including each
+        battle, the mapping of each playthrough, and the turnbased combat
+        Args: None
+        Return: None
+        """
+        #read in JSON file with all of the maps in the game and randomly pick one to use
+        #for loop for how many battles there are in the map
+            #while loop to battle until victory or defeat
+        #change state to victory screen
+
+        #event loop
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                exit()
+            
+
+        #update models
+        
+        #redraw
+        self.screen.blit(self.background1, (0,0))
+        #allSprites.draw(self.screen)
+        
+        #update screen
+        pygame.display.flip()
+
+
+    """
         #instantiate battle
         for e in range(10):#"IMPORT DATA FROM FILE"):
             pass#self.monsters.add(monster.monster("INSERT MONSTER DATA FROM FILE"))
+
 
         #this will be two different loops, playerTurnLoop and monsterTurnLoop
         while self.state == "playerTurn":
             playerTurnLoop()
         while self.state == "monsterTurn":
             monsterTurnLoop()
+    """
 
 #-----------------------------------------------------------------
 #-----------------------------------------------------------------
@@ -157,6 +197,11 @@ class controller:
         pass#loop for when player dies
 
     def mainloop(self):
+        """
+        This is the main loop of the game that manages every other loop
+        Args: None
+        Return: None
+        """
         while self.state == "startMenu":
             self.startMenuLoop()
         while self.state == "classMenu":
