@@ -1,6 +1,7 @@
 import pygame
 from src import highscore
 from src import hero
+#from src import button
 #from src import monster
 
 class controller:
@@ -32,14 +33,22 @@ class controller:
         #initialization
         startButton = self.font.render("Start", False, (0,0,0), (255,255,255))
         startButtonCenter = startButton.get_rect(center=(self.screenWidth/2, self.screenHeight/2))
+        quitButton = self.font.render("Quit", False, (0,0,0), (255,0,0))
+        quitButtonCenter = quitButton.get_rect(center=(self.screenWidth/2, self.screenHeight*3/4))
 
+        #start = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48)
+        #buttons = pygame.sprite.Group(startButton, quitButton)
 
         #event loop
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 exit()
-            elif e.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pos()[0] >= 400 and pygame.mouse.get_pos()[0] <= 600 and pygame.mouse.get_pos()[1] >= 500 and pygame.mouse.get_pos()[0] >= 600:
-                self.state = "classMenu"
+            elif e.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
+                #clickedSprites = [s for s in buttons if s.rect.collidepoint(mouse)]
+                #if clickedSprites[0] == startButton:
+                    #self.state = "classMenu"
+#pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pos()[0] >= 400 and pygame.mouse.get_pos()[0] <= 600 and pygame.mouse.get_pos()[1] >= 500 and pygame.mouse.get_pos()[0] >= 600:
                 #exit()
 
         #update models
@@ -47,6 +56,7 @@ class controller:
         #redraw
         self.screen.blit(self.background, (0,0))
         self.screen.blit(startButton, startButtonCenter)
+        self.screen.blit(quitButton, quitButtonCenter)
         
         #update screen
         pygame.display.flip()
