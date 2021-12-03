@@ -9,7 +9,7 @@ import random
 class Hero(pygame.sprite.Sprite):
    def __init__(self, name, health, potion, strength):
       super().__init__()
-      self.image = pygame.image.load('assets/samarai.png').convert_alpha()
+      self.image = pygame.image.load('assets/samaraiSmall.png').convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(-25, 25)
       self.rect.x = 400
@@ -45,12 +45,13 @@ class Hero(pygame.sprite.Sprite):
       monster.health -= damage
       if monster.health < 1:
          monster.health = 0
+      print(monster.health)
     
          
 
    def get_damage(self, amount):
       if self.health > 0:
-         self.current_health -= amount
+         self.health =  self.health - amount
       else:
          self.health = 0
    """

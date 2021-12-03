@@ -5,7 +5,7 @@ class monster(pygame.sprite.Sprite):
    def __init__(self, health, x, y):
 #need to import hero class data from text file
       super().__init__()
-      self.image = pygame.image.load('assets/monster.jpg').convert_alpha()
+      self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(25, 25)
       self.alive = True
@@ -30,8 +30,9 @@ class monster(pygame.sprite.Sprite):
    calculates damage and adds randomized amount to it, then substracts that from health of hero
    """
    def update(self):
-      #def self.hero_health() ?what does this mean
-      pass
+      if self.health == 0:
+          self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
+      
 
    def get_damage(self, amount):
       if self.health > 0:

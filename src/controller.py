@@ -3,6 +3,7 @@ from src import highscore
 from src import hero
 from src import button
 from src import monster
+from src import healthBar
 
 class controller:
     def __init__(self):
@@ -31,14 +32,14 @@ class controller:
 
         self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
         self.quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
-        self.attackButton = button.button(1090, 30, "Attack", 35, (255,255,255), None)
+        self.attackButton = button.button(1090, 70, "Attack", 35, (255,255,255), None)
         #self.attackButton = button.button(1090, 30, "Attack", 35, (255,255,255), None)
 
-        self.hero = None        
+        self.hero = None
+        self.heroHealthBar = None
         self.highscore = highscore.highscore(500, 200)
         self.monsters = pygame.sprite.Group()
-        for e in range(3):
-            self.monsters.add(monster.monster(20, 50, 50))
+        self.monster = monster.monster(300, 50, 50)
 
         self.allSprites = None
         
@@ -100,6 +101,7 @@ class controller:
                 mouse = pygame.mouse.get_pos()
                 if samuraiButton.rect.collidepoint(mouse):
                     self.hero = samurai
+                    self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
                     self.state = "battleLoop"
             #add more classes once we have it set up correctly
 
@@ -174,20 +176,32 @@ class controller:
         #for e in range(2):
                 #gameMap1.append(monster())
         
-        allSprites = pygame.sprite.Group((self.hero,) + (self.monsters,) + (self.attackButton,))
+        allSprites = pygame.sprite.Group((self.hero,) + (self.monster,) + (self.attackButton,) + (self.heroHealthBar,))
 
         #for loop for how many battles there are in the map
             #while loop to battle until victory or defeat
         #change state to victory screen
 
+
+
+
         #event loop
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 exit()
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
+                if self.attackButton.rect.collidepoint(mouse):
+                    self.hero.attack(self.monster)
             
 
         #update models
-        
+        #health bar decrease
+        self.hero.update()
+        self.heroHealthBar.update(self.hero.health)
+        #monster death check
+        self.monster.update()
+
         #redraw
         self.screen.blit(self.battleBackground, (0,0))
         self.screen.blit(self.moveBox, (1080, 0))
