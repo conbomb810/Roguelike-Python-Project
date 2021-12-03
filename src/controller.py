@@ -2,7 +2,7 @@ import pygame
 from src import highscore
 from src import hero
 from src import button
-#from src import monster
+from src import monster
 
 class controller:
     def __init__(self):
@@ -25,11 +25,22 @@ class controller:
         self.background1 = pygame.image.load("assets/mountainTestBackground.jpg").convert_alpha()
         self.background2 = pygame.Surface((self.screenWidth, self.screenHeight))
         self.background2.fill((170, 170, 170))
+        self.battleBackground = pygame.image.load("assets/battleBackground.jpg").convert_alpha()
+        self.moveBox = pygame.image.load("assets/moveBox.png").convert_alpha()
+        self.dialogueBox = pygame.image.load("assets/dialogueBoxNew.png").convert_alpha()
 
+        self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
+        self.quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
+        self.attackButton = button.button(1090, 30, "Attack", 35, (255,255,255), None)
+        #self.attackButton = button.button(1090, 30, "Attack", 35, (255,255,255), None)
 
         self.hero = None        
         self.highscore = highscore.highscore(500, 200)
         self.monsters = pygame.sprite.Group()
+        for e in range(3):
+            self.monsters.add(monster.monster(20, 50, 50))
+
+        self.allSprites = None
         
 
 #---------------------START MENU LOOP------------------------
@@ -42,9 +53,8 @@ class controller:
         Args: None
         Return: None
         """
-        startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
-        quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
-        allSprites = pygame.sprite.Group((startButton,) + (quitButton,))
+        
+        self.allSprites = pygame.sprite.Group((self.startButton,) + (self.quitButton,))
 
         #event loop
         for e in pygame.event.get():
@@ -52,16 +62,16 @@ class controller:
                 exit()
             elif e.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
-                if startButton.rect.collidepoint(mouse):
+                if self.startButton.rect.collidepoint(mouse):
                     self.state = "classMenu"
-                elif quitButton.rect.collidepoint(mouse):
+                elif self.quitButton.rect.collidepoint(mouse):
                     exit()
 
         #update models
         
         #redraw
         self.screen.blit(self.background1, (0,0))
-        allSprites.draw(self.screen)
+        self.allSprites.draw(self.screen)
         
         #update screen
         pygame.display.flip()
@@ -78,7 +88,7 @@ class controller:
         """
         samurai = hero.Hero('samurai', 500, 'health pot', 200) #this info will be imported from a JSON file
         samuraiButton = button.button(self.screenWidth/4, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
-        allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
+        self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
 
         #test class
         #need to draw the hero and monsterssamurai
@@ -97,7 +107,7 @@ class controller:
 
         #redraw
         self.screen.blit(self.background2, (0,0))
-        allSprites.draw(self.screen)
+        self.allSprites.draw(self.screen)
         #update screen
         pygame.display.flip()
 
@@ -157,6 +167,15 @@ class controller:
         Return: None
         """
         #read in JSON file with all of the maps in the game and randomly pick one to use
+        gameMap1 = pygame.sprite.Group()
+        #gameMap2 = pygame.sprite.Group()
+        #gameMap3 = pygame.sprite.Group()
+        
+        #for e in range(2):
+                #gameMap1.append(monster())
+        
+        allSprites = pygame.sprite.Group((self.hero,) + (self.monsters,) + (self.attackButton,))
+
         #for loop for how many battles there are in the map
             #while loop to battle until victory or defeat
         #change state to victory screen
@@ -170,8 +189,10 @@ class controller:
         #update models
         
         #redraw
-        self.screen.blit(self.background1, (0,0))
-        #allSprites.draw(self.screen)
+        self.screen.blit(self.battleBackground, (0,0))
+        self.screen.blit(self.moveBox, (1080, 0))
+        self.screen.blit(self.dialogueBox, (0,580))
+        allSprites.draw(self.screen)
         
         #update screen
         pygame.display.flip()
