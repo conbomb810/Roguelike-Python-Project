@@ -3,7 +3,7 @@ from src import highscore
 from src import hero
 from src import button
 from src import monster
-from src import healthBar
+#from src import healthBar
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #dialoguebox
