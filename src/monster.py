@@ -21,17 +21,21 @@ class monster(pygame.sprite.Sprite):
       self.blit(self.image, (self.rect.x, self.rect.y))
 
    def attack(self, hero): #damage
-      rand = random.randint(-50, 50)
-      damage = self.strength + rand
+      damage = random.randint(0, 50)
       hero.health -= damage
       if hero.health < 1:
          hero.health = 0
+         hero.alive = False
+      print("damage to hero:" + str(damage))
    """
    calculates damage and adds randomized amount to it, then substracts that from health of hero
    """
-   def update(self):
+   def update(self, hero):
+         self.attack(hero)
+
+   def deathCheck(self):
       if self.health == 0:
-          self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
+         self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
       
 
    def get_damage(self, amount):
@@ -39,6 +43,7 @@ class monster(pygame.sprite.Sprite):
          self.current_health -+ amount
       if self.health <= 0:
          self.health = 0
+         self.alive = False
 
    """sets damage"""
    def get_health(self, amount):

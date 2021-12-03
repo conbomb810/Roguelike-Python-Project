@@ -33,7 +33,7 @@ class Hero(pygame.sprite.Sprite):
       self.hero_health()
 
 
-   def magic(self, hero):
+   def magic(self, monster):
       pass
 
    def attack(self, monster): #damage to monster
@@ -45,7 +45,9 @@ class Hero(pygame.sprite.Sprite):
       monster.health -= damage
       if monster.health < 1:
          monster.health = 0
-      print(monster.health)
+         monster.alive = False
+      print("monster health remaining:" + str(monster.health))
+      print("damage to monster:" + str(damage))
     
          
 
