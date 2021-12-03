@@ -88,5 +88,6 @@ The Project is broken down into the following file structure:
 | 11 | healthbar update | health bar is updated based on remaining health then displayed on GUI window | health bar is updated based on remaining health then displayed on GUI window
 |12 | battle loop runs | if health of hero or monster is greater then zero, then battle will runs again and attacks are chosen again | if health of hero or monster is greater then zero, then battle will runs again and attacks are chosen again 
 |13 | Health status | if characters health bar is 0, gameover loop will commence. If health of monsters is 0, next round will start. | gameover loop displays game over screen and asks to play again. When monster health is 0 GUI window displays "victory" and advances to next round | gameover loop displays game over screen and asks to play again or quit. When monster health is 0 GUI window displays "victory" but doesn't display on GUI window the next round of enemies.
+| 14 | run score | if monsters health is less than zero, then score will increase by set amount and bonus socre is applied based on amount of health hero still has and displays in GUI window. If hero health less than 0, then final score is shown on GUI window during victory loop.
 |14| game over | GUI window screen is deleted and program ends| GUI window screen is deleted and program ends
 etc...
