@@ -251,12 +251,8 @@ class controller:
         #update models
         #health bar decrease
         self.hero.update()
-<<<<<<< HEAD
-        #self.heroHealthBar.update(self.hero.health)
-=======
         self.heroHealthBar.update(self.hero.health)
 
->>>>>>> 365df5b55188e9d507a841397c77a7e97581b224
         #monster death check
         #self.monster.deathCheck()
         #if self.monster.alive == False:
