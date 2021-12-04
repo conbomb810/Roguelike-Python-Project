@@ -16,10 +16,10 @@ from src import healthBar
 #hero.defend
 
 #LIST OF THINGS I NEED TO WORK:
-#monster removing it's own attack capabilities when alive = False
+#monster removing it's own attack capabilities when alive = False [[[DONE]]]
 
 #LIST OF THINGS TO IMPLEMENT (not including the above):
-#multiple enemies
+#multiple enemies [[[DONE]]]
 #multiple fights
 #animations?
 #music
@@ -67,18 +67,22 @@ class controller:
         self.hero = None
         self.heroHealthBar = None
         #self.highscore = highscore.highscore(500, 200)
+
+        #import the following from JSON file
         self.monsters1 = pygame.sprite.Group()
-        #import monsters1 2 and 3 from file
         self.monsters1.add(monster.monster(300, 50, 50))
         self.monsters1.add(monster.monster(300, 50, 150))
         self.monstersAlive1 = 2
         self.monsters2 = pygame.sprite.Group()
         self.monsters2.add(monster.monster(600, 50, 50))
+        self.monstersAlive2 = 1
         self.monsters3 = pygame.sprite.Group()
         self.monsters3.add(monster.monster(1000, 50, 50))
         self.monsters3.add(monster.monster(300, 50, 150))
-        self.monster = monster.monster(300, 50, 50) #this is a test monster
+        self.monstersAlive3 = 2
+        self.monster = monster.monster(300, 50, 50) #this is a test monster, dont include in game
         self.battles = [self.monsters1, self.monsters2, self.monsters3]
+        self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
 
         self.allSprites = None
         
@@ -208,19 +212,22 @@ class controller:
         Return: None
         """
         #read in JSON file with all of the maps in the game and randomly pick one to use
-        gameMap1 = pygame.sprite.Group()
+        #gameMap1 = pygame.sprite.Group()
         #gameMap2 = pygame.sprite.Group()
         #gameMap3 = pygame.sprite.Group()
-        
-        #the below is inputted via json file, this is just a test
-        #FIND A WAY TO MAKE MULTIPLE MONSTERS WORK
-        
-        allSprites = pygame.sprite.Group((self.hero,) + (self.monsters1,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
-
+             
+        i = -1
+        enemiesAlive = self.enemyCount[i]
         #for loop for how many battles there are in the map
         for monsters in self.battles:
+            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
+
+            i += 1
+            enemiesAlive = self.enemyCount[i]
+            print(f"battle {i+1}/3")
+
             #while loop to battle until victory or defeat
-            while self.monstersAlive1 != 0:
+            while self.enemyCount[i] != 0:
 
                 #event loop
                 for e in pygame.event.get():
@@ -232,17 +239,28 @@ class controller:
                             #hero attack
                             self.hero.attack(self.target)  #replace self.monster with self.target for multiple enemies
                             #monsters attack
-                            #self.monsters1.update(self.hero)
-                            self.monster.attack(self.hero) #print monster attack to dialogue box once it works :)
+                            #self.monster.attack(self.hero) #print monster attack to dialogue box once it works :)
+                            for sprite in monsters:
+                                if sprite.alive:
+                                    sprite.attack(self.hero)
                         if self.magicButton.rect.collidepoint(mouse):
                             self.hero.magic(self.target)
-                            self.monster.attack(self.hero)
+                            #self.monster.attack(self.hero)
+                            for sprite in monsters:
+                                if sprite.alive:
+                                    sprite.attack(self.hero)
                         if self.itemButton.rect.collidepoint(mouse):
-                            self.hero.item(self.target)
-                            self.monster.attack(self.hero)
+                            self.hero.item()
+                            #self.monster.attack(self.hero)
+                            for sprite in monsters:
+                                if sprite.alive:
+                                    sprite.attack(self.hero)
                         if self.defendButton.rect.collidepoint(mouse):
                             self.hero.defend() #fix up later
-                            self.monster.attack(self.hero)
+                            #self.monster.attack(self.hero)
+                            for sprite in monsters:
+                                if sprite.alive:
+                                    sprite.attack(self.hero)
                         else:
                             for sprite in monsters:
                                 if sprite.rect.collidepoint(mouse):
@@ -258,10 +276,11 @@ class controller:
                 #self.monster.deathCheck()
                 #if self.monster.alive == False:
                     #self.state = "victoryScreen"
-                for sprite in self.monsters1:
+                for sprite in monsters:
+                    sprite.deathCheck()
                     if sprite.alive == False:
-                        self.monstersAlive1 -=1
-                        self.monsters1.remove(sprite)
+                        self.enemyCount[i] -=1
+                        monsters.remove(sprite)
                     #if self.monstersAlive1 == 0:
                         #self.state = "victoryScreen"
 
@@ -278,6 +297,9 @@ class controller:
         
                 #update screen
                 pygame.display.flip()
+
+            #i += 1
+            #enemiesAlive = self.enemyCount[i]
 
         self.state = "victoryScreen"
 

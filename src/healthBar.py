@@ -17,7 +17,7 @@ class healthBar(pygame.sprite.Sprite):
     def update(self, hp):
         #current = self.health - hp
         self.health = hp
-        print(self.health)
+        #print(self.health)
         if self.health >= 0:
             self.healthStr = f"{self.health} / {self.maxHealth}"
         else:

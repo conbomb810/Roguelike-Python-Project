@@ -34,10 +34,6 @@ class Hero(pygame.sprite.Sprite):
    def update(self):
       self.hero_health()
 
-
-   def magic(self, monster):
-      pass
-
    def attack(self, monster): #damage to monster
       """
       calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
@@ -58,7 +54,6 @@ class Hero(pygame.sprite.Sprite):
       if monster.health < 1:
          monster.health = 0
          monster.alive = False
-   
       print("monster health remaining:" + str(monster.health))
       print("damage to monster:" + str(damage))
 
@@ -95,7 +90,3 @@ class Hero(pygame.sprite.Sprite):
       #pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
       #values must be edited for size of window
       pass
-
-   def defend(self):
-      pass
-   
