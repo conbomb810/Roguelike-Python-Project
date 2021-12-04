@@ -19,7 +19,7 @@ class Hero(pygame.sprite.Sprite):
       self.name = name
       self.item = potion
       self.strength = strength
-      self.magic = magic
+      self.magic = 20
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
@@ -62,7 +62,7 @@ class Hero(pygame.sprite.Sprite):
       print("monster health remaining:" + str(monster.health))
       print("damage to monster:" + str(damage))
 
-   def item(self)
+   def item(self):
       self.health = self.health + self.item
       print("hero health remaining" + str(hero.health))
       

@@ -21,10 +21,10 @@ class monster(pygame.sprite.Sprite):
       self.blit(self.image, (self.rect.x, self.rect.y))
 
    def attack(self, hero): #damage
-      if hero.defend False:
+      if hero.defend == False:
          damage = random.randint(0, 50)
          hero.health -= damage
-            if hero.health < 1:
+         if hero.health < 1:
             hero.health = 0
             hero.alive = False
       else:
