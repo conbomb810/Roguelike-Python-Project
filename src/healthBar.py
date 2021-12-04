@@ -1,6 +1,6 @@
 import pygame
 
-#the button the player will use to complete certain actions
+#the display that shows the status of the players health.
 class healthBar(pygame.sprite.Sprite):
     def __init__(self, x, y, health, maxHealth):
         super().__init__()
@@ -17,6 +17,7 @@ class healthBar(pygame.sprite.Sprite):
     def update(self, hp):
         current = self.health - hp
         self.health = current
+        print(self.health)
         if current >= 0:
             self.healthStr = f"{current} / {self.maxHealth}"
         else:

@@ -63,7 +63,7 @@ class controller:
 
         self.hero = None
         self.heroHealthBar = None
-        self.highscore = highscore.highscore(500, 200)
+        #self.highscore = highscore.highscore(500, 200)
         self.monsters1 = pygame.sprite.Group()  #import monsters1 2 and 3 from file
         self.monsters2 = pygame.sprite.Group()
         self.monsters3 = pygame.sprite.Group()
