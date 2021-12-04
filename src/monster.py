@@ -21,11 +21,16 @@ class monster(pygame.sprite.Sprite):
       self.blit(self.image, (self.rect.x, self.rect.y))
 
    def attack(self, hero): #damage
-      damage = random.randint(0, 50)
-      hero.health -= damage
-      if hero.health < 1:
-         hero.health = 0
-         hero.alive = False
+      if hero.defend False:
+         damage = random.randint(0, 50)
+         hero.health -= damage
+            if hero.health < 1:
+            hero.health = 0
+            hero.alive = False
+      else:
+         hero.health = hero.health
+         hero.defend = False
+
       print("damage to hero:" + str(damage))
    """
    calculates damage and adds randomized amount to it, then substracts that from health of hero
