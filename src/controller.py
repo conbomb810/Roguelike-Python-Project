@@ -244,7 +244,7 @@ class controller:
         #update models
         #health bar decrease
         self.hero.update()
-        self.heroHealthBar.update(self.hero.health)
+        #self.heroHealthBar.update(self.hero.health)
         #monster death check
         self.monster.deathCheck()
         if self.monster.alive == False:
