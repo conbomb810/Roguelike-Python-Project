@@ -1,5 +1,5 @@
 import pygame
-from src import highscore
+#from src import highscore
 from src import hero
 from src import button
 from src import monster
