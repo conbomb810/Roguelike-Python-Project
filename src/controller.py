@@ -15,6 +15,9 @@ from src import healthBar
 #hero.magic
 #hero.defend
 
+#LIST OF THINGS I NEED TO WORK:
+#monster removing it's own attack capabilities when alive = False
+
 #LIST OF THINGS TO IMPLEMENT (not including the above):
 #multiple enemies
 #multiple fights
@@ -65,6 +68,7 @@ class controller:
         self.heroHealthBar = None
         #self.highscore = highscore.highscore(500, 200)
         self.monsters1 = pygame.sprite.Group()  #import monsters1 2 and 3 from file
+        self.monstersAlive1 = 2
         self.monsters2 = pygame.sprite.Group()
         self.monsters3 = pygame.sprite.Group()
         self.monster = monster.monster(300, 50, 50) #this is a test monster
@@ -208,7 +212,7 @@ class controller:
         self.monsters1.add(monster.monster(300, 50, 150))
         
         
-        allSprites = pygame.sprite.Group((self.hero,) + (self.monster,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
+        allSprites = pygame.sprite.Group((self.hero,) + (self.monsters1,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
 
         #for loop for how many battles there are in the map
             #while loop to battle until victory or defeat
@@ -225,30 +229,45 @@ class controller:
                 mouse = pygame.mouse.get_pos()
                 if self.attackButton.rect.collidepoint(mouse):
                     #hero attack
-                    self.hero.attack(self.monster)  #replace self.monster with self.target for multiple enemies
+                    self.hero.attack(self.target)  #replace self.monster with self.target for multiple enemies
                     #monsters attack
                     #self.monsters1.update(self.hero)
                     self.monster.attack(self.hero) #print monster attack to dialogue box once it works :)
                 if self.magicButton.rect.collidepoint(mouse):
-                    self.hero.magic(self.monster)
+                    self.hero.magic(self.target)
                     self.monster.attack(self.hero)
                 if self.itemButton.rect.collidepoint(mouse):
-                    self.hero.item(self.monster)
+                    self.hero.item(self.target)
                     self.monster.attack(self.hero)
                 if self.defendButton.rect.collidepoint(mouse):
                     self.hero.defend() #fix up later
                     self.monster.attack(self.hero)
-                #if monster is clicked
-                    #self.target = monster that was clicked
+                else:
+                    for sprite in self.monsters1:
+                        if sprite.rect.collidepoint(mouse):
+                            self.target = sprite
+
 
         #update models
         #health bar decrease
         self.hero.update()
+<<<<<<< HEAD
+        #self.heroHealthBar.update(self.hero.health)
+=======
         self.heroHealthBar.update(self.hero.health)
+
+>>>>>>> 365df5b55188e9d507a841397c77a7e97581b224
         #monster death check
-        self.monster.deathCheck()
-        if self.monster.alive == False:
-            self.state = "victoryScreen"
+        #self.monster.deathCheck()
+        #if self.monster.alive == False:
+            #self.state = "victoryScreen"
+        for sprite in self.monsters1:
+            if sprite.alive == False:
+                self.monstersAlive1 -=1
+                self.monsters1.remove(sprite)
+            if self.monstersAlive1 == 0:
+                self.state = "victoryScreen"
+
         #hero death check
         self.hero.update()
         if self.hero.alive == False:
