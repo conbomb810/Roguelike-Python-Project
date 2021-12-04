@@ -15,9 +15,11 @@ class Hero(pygame.sprite.Sprite):
       self.rect.x = 400
       self.rect.y = 300
       self.alive = True
+      self.defend = False
       self.name = name
+      self.item = potion
       self.strength = strength
-      #self.buff = buff 
+      self.magic = magic
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
@@ -40,7 +42,7 @@ class Hero(pygame.sprite.Sprite):
       """
       calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
       """
-      rand = random.randint(-50, 50)
+      rand = random.randint(0, 50)
       damage = self.strength + rand
       monster.health -= damage
       if monster.health < 1:
@@ -48,7 +50,25 @@ class Hero(pygame.sprite.Sprite):
          monster.alive = False
       print("monster health remaining:" + str(monster.health))
       print("damage to monster:" + str(damage))
-    
+   
+   def magic(self, monster):
+      rand = random.randint(0, 20)
+      damage = self.magic + rand
+      monster.health -= damage
+      if monster.health < 1:
+         monster.health = 0
+         monster.alive = False
+   
+      print("monster health remaining:" + str(monster.health))
+      print("damage to monster:" + str(damage))
+
+   def item(self)
+      self.health = self.health + self.item
+      print("hero health remaining" + str(hero.health))
+      
+   def defend(self):
+      self.defend = True
+      
          
 
    def get_damage(self, amount):

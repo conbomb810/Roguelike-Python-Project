@@ -3,7 +3,7 @@ from src import highscore
 from src import hero
 from src import button
 from src import monster
-#from src import healthBar
+from src import healthBar
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #dialoguebox
@@ -208,7 +208,7 @@ class controller:
         self.monsters1.add(monster.monster(300, 50, 150))
         
         
-        allSprites = pygame.sprite.Group((self.hero,) + (self.monster,) + (self.attackButton,) + (self.heroHealthBar,) + (self.magicButton,) + (self.itemButton,) + (self.defendButton,))
+        allSprites = pygame.sprite.Group((self.hero,) + (self.monster,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
 
         #for loop for how many battles there are in the map
             #while loop to battle until victory or defeat
