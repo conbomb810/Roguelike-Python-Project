@@ -67,11 +67,18 @@ class controller:
         self.hero = None
         self.heroHealthBar = None
         #self.highscore = highscore.highscore(500, 200)
-        self.monsters1 = pygame.sprite.Group()  #import monsters1 2 and 3 from file
+        self.monsters1 = pygame.sprite.Group()
+        #import monsters1 2 and 3 from file
+        self.monsters1.add(monster.monster(300, 50, 50))
+        self.monsters1.add(monster.monster(300, 50, 150))
         self.monstersAlive1 = 2
         self.monsters2 = pygame.sprite.Group()
+        self.monsters2.add(monster.monster(600, 50, 50))
         self.monsters3 = pygame.sprite.Group()
+        self.monsters3.add(monster.monster(1000, 50, 50))
+        self.monsters3.add(monster.monster(300, 50, 150))
         self.monster = monster.monster(300, 50, 50) #this is a test monster
+        self.battles = [self.monsters1, self.monsters2, self.monsters3]
 
         self.allSprites = None
         
@@ -207,90 +214,72 @@ class controller:
         
         #the below is inputted via json file, this is just a test
         #FIND A WAY TO MAKE MULTIPLE MONSTERS WORK
-        monsterCount = 2
-        self.monsters1.add(monster.monster(300, 50, 50))
-        self.monsters1.add(monster.monster(300, 50, 150))
-        
         
         allSprites = pygame.sprite.Group((self.hero,) + (self.monsters1,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
 
         #for loop for how many battles there are in the map
+        for monsters in self.battles:
             #while loop to battle until victory or defeat
-        #change state to victory screen
+            while self.monstersAlive1 != 0:
+
+                #event loop
+                for e in pygame.event.get():
+                    if e.type == pygame.QUIT:
+                        exit()
+                    if e.type == pygame.MOUSEBUTTONDOWN:
+                        mouse = pygame.mouse.get_pos()
+                        if self.attackButton.rect.collidepoint(mouse):
+                            #hero attack
+                            self.hero.attack(self.target)  #replace self.monster with self.target for multiple enemies
+                            #monsters attack
+                            #self.monsters1.update(self.hero)
+                            self.monster.attack(self.hero) #print monster attack to dialogue box once it works :)
+                        if self.magicButton.rect.collidepoint(mouse):
+                            self.hero.magic(self.target)
+                            self.monster.attack(self.hero)
+                        if self.itemButton.rect.collidepoint(mouse):
+                            self.hero.item(self.target)
+                            self.monster.attack(self.hero)
+                        if self.defendButton.rect.collidepoint(mouse):
+                            self.hero.defend() #fix up later
+                            self.monster.attack(self.hero)
+                        else:
+                            for sprite in monsters:
+                                if sprite.rect.collidepoint(mouse):
+                                    self.target = sprite
 
 
+                #update models
+                #health bar decrease
+                self.hero.update()
+                self.heroHealthBar.update(self.hero.health)
 
+                #monster death check
+                #self.monster.deathCheck()
+                #if self.monster.alive == False:
+                    #self.state = "victoryScreen"
+                for sprite in self.monsters1:
+                    if sprite.alive == False:
+                        self.monstersAlive1 -=1
+                        self.monsters1.remove(sprite)
+                    #if self.monstersAlive1 == 0:
+                        #self.state = "victoryScreen"
 
-        #event loop
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                exit()
-            if e.type == pygame.MOUSEBUTTONDOWN:
-                mouse = pygame.mouse.get_pos()
-                if self.attackButton.rect.collidepoint(mouse):
-                    #hero attack
-                    self.hero.attack(self.target)  #replace self.monster with self.target for multiple enemies
-                    #monsters attack
-                    #self.monsters1.update(self.hero)
-                    self.monster.attack(self.hero) #print monster attack to dialogue box once it works :)
-                if self.magicButton.rect.collidepoint(mouse):
-                    self.hero.magic(self.target)
-                    self.monster.attack(self.hero)
-                if self.itemButton.rect.collidepoint(mouse):
-                    self.hero.item(self.target)
-                    self.monster.attack(self.hero)
-                if self.defendButton.rect.collidepoint(mouse):
-                    self.hero.defend() #fix up later
-                    self.monster.attack(self.hero)
-                else:
-                    for sprite in self.monsters1:
-                        if sprite.rect.collidepoint(mouse):
-                            self.target = sprite
+                #hero death check
+                self.hero.update()
+                if self.hero.alive == False:
+                    self.state = "gameOver"
 
-
-        #update models
-        #health bar decrease
-        self.hero.update()
-        self.heroHealthBar.update(self.hero.health)
-
-        #monster death check
-        #self.monster.deathCheck()
-        #if self.monster.alive == False:
-            #self.state = "victoryScreen"
-        for sprite in self.monsters1:
-            if sprite.alive == False:
-                self.monstersAlive1 -=1
-                self.monsters1.remove(sprite)
-            if self.monstersAlive1 == 0:
-                self.state = "victoryScreen"
-
-        #hero death check
-        self.hero.update()
-        if self.hero.alive == False:
-            self.state = "gameOver"
-
-        #redraw
-        self.screen.blit(self.battleBackground, (0,0))
-        self.screen.blit(self.moveBox, (1080, 0))
-        self.screen.blit(self.dialogueBox, (0,580))
-        allSprites.draw(self.screen)
+                #redraw
+                self.screen.blit(self.battleBackground, (0,0))
+                self.screen.blit(self.moveBox, (1080, 0))
+                self.screen.blit(self.dialogueBox, (0,580))
+                allSprites.draw(self.screen)
         
-        #update screen
-        pygame.display.flip()
+                #update screen
+                pygame.display.flip()
 
-
-    """
-        #instantiate battle
-        for e in range(10):#"IMPORT DATA FROM FILE"):
-            pass#self.monsters.add(monster.monster("INSERT MONSTER DATA FROM FILE"))
-
-
-        #this will be two different loops, playerTurnLoop and monsterTurnLoop
-        while self.state == "playerTurn":
-            playerTurnLoop()
-        while self.state == "monsterTurn":
-            monsterTurnLoop()
-    """
+        self.state = "victoryScreen"
 
 #-----------------------------------------------------------------
 #-----------------------------------------------------------------
