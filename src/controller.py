@@ -35,7 +35,9 @@ class controller:
         self.screenWidth = 1280
         self.screenHeight = 720
         
+
         pygame.init()
+        pygame.mixer.init()
         self.state = "startMenu"
         
 
@@ -78,7 +80,7 @@ class controller:
         self.monsters2.add(monster.monster(600, 50, 50, 'oni'))
         self.monstersAlive2 = 1
         self.monsters3 = pygame.sprite.Group()
-        self.monsters3.add(monster.monster(1000, 50, 150, 'oni', True))
+        self.monsters3.add(monster.monster(1000, 200, 30, 'boss', True))
         self.monsters3.add(monster.monster(300, 50, 50, 'slime'))
         self.monstersAlive3 = 2
         self.monster = monster.monster(300, 50, 50, 'slime') #this is a test monster, dont include in game
@@ -216,7 +218,9 @@ class controller:
         #gameMap1 = pygame.sprite.Group()
         #gameMap2 = pygame.sprite.Group()
         #gameMap3 = pygame.sprite.Group()
-             
+        
+        #pygame.mixer.music.load("assets/")
+
         i = -1
         enemiesAlive = self.enemyCount[i]
         #for loop for how many battles there are in the map
@@ -226,6 +230,8 @@ class controller:
             i += 1
             enemiesAlive = self.enemyCount[i]
             print(f"battle {i+1}/3")
+            for sprite in monsters:
+                self.target = sprite
 
             #while loop to battle until victory or defeat
             while self.enemyCount[i] != 0:
@@ -282,6 +288,8 @@ class controller:
                     if sprite.alive == False:
                         self.enemyCount[i] -=1
                         monsters.remove(sprite)
+                        for sprite in monsters:
+                            self.target = sprite
                     #if self.monstersAlive1 == 0:
                         #self.state = "victoryScreen"
 

@@ -10,6 +10,8 @@ class monster(pygame.sprite.Sprite):
          self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
       elif monType == 'oni':
          self.image = pygame.image.load('assets/Oni.png').convert_alpha()
+      elif monType == 'boss':
+         self.image = pygame.image.load('assets/boss.png').convert_alpha()
       else:
          self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
       self.rect = self.image.get_rect()
@@ -50,6 +52,8 @@ class monster(pygame.sprite.Sprite):
             self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
          elif self.monType == 'oni':
             self.image = pygame.image.load('assets/OniDead.png').convert_alpha()
+         elif self.monType == 'boss':
+            self.image = pygame.image.load('assets/bossDead.png').convert_alpha()
          else:
             self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
       
