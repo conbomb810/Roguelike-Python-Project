@@ -1,6 +1,7 @@
 import pygame
 
 #the display that shows the status of the players health.
+#this works fine other than the fact that the font object doesn't change when health is updated
 class healthBar(pygame.sprite.Sprite):
     def __init__(self, x, y, health, maxHealth):
         super().__init__()

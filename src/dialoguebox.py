@@ -1,5 +1,6 @@
 import pygame
 #this where dialogue between characters or anything said to the player is displayed
+#this code should be virtually the same as healthBar.py except the String should be a parameter of a method
 class dialoguebox:
 	def __init__(self, x, y, text, size, textColor, backColor):
 		super().__init__()

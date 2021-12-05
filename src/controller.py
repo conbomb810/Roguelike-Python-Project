@@ -4,6 +4,7 @@ from src import hero
 from src import button
 from src import monster
 from src import healthBar
+from src import score
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #dialoguebox

@@ -1,6 +1,9 @@
 #this tracks the score that the player acquires during the game
 from src import hero.py
 from src import monster.py
+
+#this class needs an image and rect variable, find an image to use for it, probably a font object
+#this should also export the score to the highscore json file ONLY IF score > highscore
 class score:
 	def __init__(self):
 		self.start_score = 0

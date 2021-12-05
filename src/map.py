@@ -8,3 +8,7 @@ class map:
 	
 	def enemyLocation(self):
 		
+
+
+
+#THIS IS NOT NEEDED, SIMPLY USE JSON FORMATTING INSTEAD, PROBLEM SOLVED IN CONTROLLER

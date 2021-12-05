@@ -1,6 +1,7 @@
 import pygame
 
 #this is the overall highscore between playthroughs
+#all this needs to do is import a highscore from a json file
 class highscore:
     def __init__(self, x, y):
         super().__init__()  #doesnt work for some reason
