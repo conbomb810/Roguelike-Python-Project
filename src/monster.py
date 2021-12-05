@@ -2,10 +2,16 @@ import pygame
 import random
 class monster(pygame.sprite.Sprite):
    
-   def __init__(self, health, x, y):
+   def __init__(self, health, x, y, monType, isBoss=False):
 #need to import hero class data from text file
       super().__init__()
-      self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
+      self.monType = monType
+      if monType == 'slime':
+         self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
+      elif monType == 'oni':
+         self.image = pygame.image.load('assets/Oni.png').convert_alpha()
+      else:
+         self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(25, 25)
       self.alive = True
@@ -14,6 +20,7 @@ class monster(pygame.sprite.Sprite):
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
+      self.isBoss = isBoss
       #self.health.ratio = self.max_health/self.bar_len
       """setting parameters for starting position and also setting the health of the monster."""
    
@@ -24,14 +31,13 @@ class monster(pygame.sprite.Sprite):
       if hero.defend == False:
          damage = random.randint(0, 50)
          hero.health -= damage
+         print("damage to hero:" + str(damage))
          if hero.health < 1:
             hero.health = 0
             hero.alive = False
       else:
-         hero.health = hero.health
          hero.defend = False
 
-      print("damage to hero:" + str(damage))
    """
    calculates damage and adds randomized amount to it, then substracts that from health of hero
    """
@@ -40,7 +46,12 @@ class monster(pygame.sprite.Sprite):
 
    def deathCheck(self):
       if self.health == 0:
-         self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
+         if self.monType == 'slime':
+            self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
+         elif self.monType == 'oni':
+            self.image = pygame.image.load('assets/OniDead.png').convert_alpha()
+         else:
+            self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
       
 
    def get_damage(self, amount):

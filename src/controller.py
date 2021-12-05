@@ -11,16 +11,17 @@ from src import healthBar
 #score
 #mana
 #healthBar
-#hero.item
-#hero.magic
-#hero.defend
+#hero.item: add limited usage and health limit
+#hero.magic [[[DONE]]]
+#implement mana system into hero.magic
+#hero.defend [[[DONE]]]
 
 #LIST OF THINGS I NEED TO WORK:
 #monster removing it's own attack capabilities when alive = False [[[DONE]]]
 
 #LIST OF THINGS TO IMPLEMENT (not including the above):
 #multiple enemies [[[DONE]]]
-#multiple fights
+#multiple fights [[[DONE]]]
 #animations?
 #music
 
@@ -70,17 +71,17 @@ class controller:
 
         #import the following from JSON file
         self.monsters1 = pygame.sprite.Group()
-        self.monsters1.add(monster.monster(300, 50, 50))
-        self.monsters1.add(monster.monster(300, 50, 150))
+        self.monsters1.add(monster.monster(300, 50, 50, 'slime'))
+        self.monsters1.add(monster.monster(300, 50, 150, 'slime'))
         self.monstersAlive1 = 2
         self.monsters2 = pygame.sprite.Group()
-        self.monsters2.add(monster.monster(600, 50, 50))
+        self.monsters2.add(monster.monster(600, 50, 50, 'oni'))
         self.monstersAlive2 = 1
         self.monsters3 = pygame.sprite.Group()
-        self.monsters3.add(monster.monster(1000, 50, 50))
-        self.monsters3.add(monster.monster(300, 50, 150))
+        self.monsters3.add(monster.monster(1000, 50, 150, 'oni', True))
+        self.monsters3.add(monster.monster(300, 50, 50, 'slime'))
         self.monstersAlive3 = 2
-        self.monster = monster.monster(300, 50, 50) #this is a test monster, dont include in game
+        self.monster = monster.monster(300, 50, 50, 'slime') #this is a test monster, dont include in game
         self.battles = [self.monsters1, self.monsters2, self.monsters3]
         self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
 
@@ -130,7 +131,7 @@ class controller:
         Args: None
         Return: None
         """
-        samurai = hero.Hero('samurai', 500, 'health pot', 200) #this info will be imported from a JSON file
+        samurai = hero.Hero('samurai', 500, 100, 200) #this info will be imported from a JSON file
         samuraiButton = button.button(self.screenWidth/4, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
         self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
 
@@ -244,19 +245,19 @@ class controller:
                                 if sprite.alive:
                                     sprite.attack(self.hero)
                         if self.magicButton.rect.collidepoint(mouse):
-                            self.hero.magic(self.target)
+                            self.hero.useMagic(self.target)
                             #self.monster.attack(self.hero)
                             for sprite in monsters:
                                 if sprite.alive:
                                     sprite.attack(self.hero)
                         if self.itemButton.rect.collidepoint(mouse):
-                            self.hero.item()
+                            self.hero.useItem()
                             #self.monster.attack(self.hero)
                             for sprite in monsters:
                                 if sprite.alive:
                                     sprite.attack(self.hero)
                         if self.defendButton.rect.collidepoint(mouse):
-                            self.hero.defend() #fix up later
+                            self.hero.defending()
                             #self.monster.attack(self.hero)
                             for sprite in monsters:
                                 if sprite.alive:

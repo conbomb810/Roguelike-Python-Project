@@ -12,7 +12,7 @@ class Hero(pygame.sprite.Sprite):
       self.image = pygame.image.load('assets/samaraiSmall.png').convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(-25, 25)
-      self.rect.x = 400
+      self.rect.x = 700
       self.rect.y = 300
       self.alive = True
       self.defend = False
@@ -47,7 +47,7 @@ class Hero(pygame.sprite.Sprite):
       print("monster health remaining:" + str(monster.health))
       print("damage to monster:" + str(damage))
    
-   def magic(self, monster):
+   def useMagic(self, monster):
       rand = random.randint(0, 20)
       damage = self.magic + rand
       monster.health -= damage
@@ -57,14 +57,12 @@ class Hero(pygame.sprite.Sprite):
       print("monster health remaining:" + str(monster.health))
       print("damage to monster:" + str(damage))
 
-   def item(self):
+   def useItem(self):
       self.health = self.health + self.item
-      print("hero health remaining" + str(hero.health))
+      print("hero health remaining" + str(self.health))
       
-   def defend(self):
+   def defending(self):
       self.defend = True
-      
-         
 
    def get_damage(self, amount):
       if self.health > 0:
