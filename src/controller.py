@@ -14,6 +14,7 @@ from src import healthBar
 #score
 #mana
 #healthBar
+#make hero.py get x and y values as param
 #hero.item: add limited usage and health limit
 #hero.magic [[[DONE]]]
 #implement mana system into hero.magic
@@ -75,12 +76,13 @@ class controller:
         self.heroHealthBar = None
         #self.highscore = highscore.highscore(500, 200)
 
-        #import the following from JSON file
-        #read in JSON file with all of the maps in the game and randomly pick one to use
-        fptr = open("info.json", 'r')
-        maps = json.load(fptr)
-        self.map = rand.choice(maps)
 
+        #read in JSON file with all of the maps in the game and randomly pick one to use
+        fptr = open("src/info.json", 'r')
+        maps = json.load(fptr)
+        self.map = maps.get(random.choice(list(maps)))
+
+        #the following sets up the battles using the chosen map
         self.monsters1 = pygame.sprite.Group()
         self.monsters2 = pygame.sprite.Group()
         self.monsters3 = pygame.sprite.Group()
@@ -90,35 +92,42 @@ class controller:
         self.monstersAlive2 = 1
         self.monstersAlive3 = 1
         self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
-
+        
         boss = False
         count = 0
+        i = 0
         for battle in self.map:
-            if battle.get("type") == "boss":
-                boss = True
-            else:
-                boss = False
-            self.monsters1.add(monster.monster(battle.get("hp"), battle.get("x"), battle.get("y"), battle.get("type"), battle.get("strength"), boss)
+            for monst in battle:
+                if monst.get("type") == "boss":
+                    boss = True
+                else:
+                    boss = False
+                self.battles[i].add(monster.monster(monst.get("hp"), monst.get("x"), monst.get("y"), monst.get("type"), monst.get("strength"), boss))
+                count += 1
+            self.enemyCount[i] = count
+            count = 0
+            i += 1
 
         #gameMap1 = pygame.sprite.Group()
         #gameMap2 = pygame.sprite.Group()
         #gameMap3 = pygame.sprite.Group()
 
 
-        self.monsters1 = pygame.sprite.Group()
-        self.monsters1.add(monster.monster(300, 50, 50, 'slime', 15))
-        self.monsters1.add(monster.monster(300, 50, 150, 'slime', 15))
-        self.monstersAlive1 = 2
-        self.monsters2 = pygame.sprite.Group()
-        self.monsters2.add(monster.monster(600, 50, 50, 'oni', 30))
-        self.monstersAlive2 = 1
-        self.monsters3 = pygame.sprite.Group()
-        self.monsters3.add(monster.monster(1000, 200, 30, 'boss', 50, True))
-        self.monsters3.add(monster.monster(300, 50, 50, 'slime', 15))
-        self.monstersAlive3 = 2
+        #import the following from JSON file
+        #self.monsters1 = pygame.sprite.Group()
+        #self.monsters1.add(monster.monster(300, 50, 50, 'slime', 15))
+        #self.monsters1.add(monster.monster(300, 50, 150, 'slime', 15))
+        #self.monstersAlive1 = 2
+        #self.monsters2 = pygame.sprite.Group()
+        #self.monsters2.add(monster.monster(600, 50, 50, 'oni', 30))
+        #self.monstersAlive2 = 1
+        #self.monsters3 = pygame.sprite.Group()
+        #self.monsters3.add(monster.monster(1000, 200, 30, 'boss', 50, True))
+        #self.monsters3.add(monster.monster(300, 50, 50, 'slime', 15))
+        #self.monstersAlive3 = 2
         self.monster = monster.monster(300, 50, 50, 'slime', 15) #this is a test monster, dont include in game
-        self.battles = [self.monsters1, self.monsters2, self.monsters3]
-        self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
+        #self.battles = [self.monsters1, self.monsters2, self.monsters3]
+        #self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
 
         self.allSprites = None
         
