@@ -1,0 +1,74 @@
+{
+    "map1": {
+                "monsters1": [
+                    {
+                        "hp": 300, 
+                        "x": 50, 
+                        "y": 50, 
+                        "type": "slime",
+                        "strength": 15
+                    },
+                    {
+                        "hp": 300, 
+                        "x": 50, 
+                        "y": 150, 
+                        "type": "slime",
+                        "strength": 15
+                    },
+                ],
+                "monsters2": [
+                    {
+                        "hp": 600, 
+                        "x": 50, 
+                        "y": 50, 
+                        "type": "oni",
+                        "strength": 30
+                    }
+                ],
+                "monsters3": [
+                    {
+                        "hp": 1000, 
+                        "x": 200, 
+                        "y": 30, 
+                        "type": "boss",
+                        "strength": 60
+                    },
+                    {
+                        "hp": 300, 
+                        "x": 50, 
+                        "y": 150, 
+                        "type": "slime",
+                        "strength": 15
+                    }
+                ]
+    },
+    "map2": {
+                "monsters1": [
+                    {
+                        "hp": 600, 
+                        "x": 50, 
+                        "y": 50, 
+                        "type": "oni",
+                        "strength": 30
+                    }
+                ],
+                "monsters2": [
+                    {
+                        "hp": 600, 
+                        "x": 50, 
+                        "y": 50, 
+                        "type": "oni",
+                        "strength": 30
+                    }
+                ],
+                "monsters3": [
+                    {
+                        "hp": 1000, 
+                        "x": 50, 
+                        "y": 30, 
+                        "type": "boss",
+                        "strength": 70
+                    }
+                ]
+    }
+}

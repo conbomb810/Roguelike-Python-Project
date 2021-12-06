@@ -1,10 +1,12 @@
 import pygame
+import json
+import random
 #from src import highscore
 from src import hero
 from src import button
 from src import monster
 from src import healthBar
-from src import score
+#from src import score
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #dialoguebox
@@ -25,6 +27,7 @@ from src import score
 #multiple fights [[[DONE]]]
 #animations?
 #music
+#JSON compatability
 
 class controller:
     def __init__(self):
@@ -73,18 +76,47 @@ class controller:
         #self.highscore = highscore.highscore(500, 200)
 
         #import the following from JSON file
+        #read in JSON file with all of the maps in the game and randomly pick one to use
+        fptr = open("info.json", 'r')
+        maps = json.load(fptr)
+        self.map = rand.choice(maps)
+
         self.monsters1 = pygame.sprite.Group()
-        self.monsters1.add(monster.monster(300, 50, 50, 'slime'))
-        self.monsters1.add(monster.monster(300, 50, 150, 'slime'))
+        self.monsters2 = pygame.sprite.Group()
+        self.monsters3 = pygame.sprite.Group()
+        self.battles = [self.monsters1, self.monsters2, self.monsters3]
+
+        self.monstersAlive1 = 1
+        self.monstersAlive2 = 1
+        self.monstersAlive3 = 1
+        self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
+
+        boss = False
+        count = 0
+        for battle in self.map:
+            if battle.get("type") == "boss":
+                boss = True
+            else:
+                boss = False
+            self.monsters1.add(monster.monster(battle.get("hp"), battle.get("x"), battle.get("y"), battle.get("type"), battle.get("strength"), boss)
+
+        #gameMap1 = pygame.sprite.Group()
+        #gameMap2 = pygame.sprite.Group()
+        #gameMap3 = pygame.sprite.Group()
+
+
+        self.monsters1 = pygame.sprite.Group()
+        self.monsters1.add(monster.monster(300, 50, 50, 'slime', 15))
+        self.monsters1.add(monster.monster(300, 50, 150, 'slime', 15))
         self.monstersAlive1 = 2
         self.monsters2 = pygame.sprite.Group()
-        self.monsters2.add(monster.monster(600, 50, 50, 'oni'))
+        self.monsters2.add(monster.monster(600, 50, 50, 'oni', 30))
         self.monstersAlive2 = 1
         self.monsters3 = pygame.sprite.Group()
-        self.monsters3.add(monster.monster(1000, 200, 30, 'boss', True))
-        self.monsters3.add(monster.monster(300, 50, 50, 'slime'))
+        self.monsters3.add(monster.monster(1000, 200, 30, 'boss', 50, True))
+        self.monsters3.add(monster.monster(300, 50, 50, 'slime', 15))
         self.monstersAlive3 = 2
-        self.monster = monster.monster(300, 50, 50, 'slime') #this is a test monster, dont include in game
+        self.monster = monster.monster(300, 50, 50, 'slime', 15) #this is a test monster, dont include in game
         self.battles = [self.monsters1, self.monsters2, self.monsters3]
         self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
 
@@ -215,10 +247,6 @@ class controller:
         Args: None
         Return: None
         """
-        #read in JSON file with all of the maps in the game and randomly pick one to use
-        #gameMap1 = pygame.sprite.Group()
-        #gameMap2 = pygame.sprite.Group()
-        #gameMap3 = pygame.sprite.Group()
         
         #pygame.mixer.music.load("assets/")
 
