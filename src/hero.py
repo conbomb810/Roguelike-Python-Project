@@ -59,8 +59,12 @@ class Hero(pygame.sprite.Sprite):
       print("damage to monster:" + str(damage))
 
    def useItem(self):
+      if self.item_use > 1:
       self.health = self.health + self.item
       print("hero health remaining" + str(self.health))
+      print ("items remaining" + item)
+      else:
+         return none
       
    def defending(self):
       self.defend = True
