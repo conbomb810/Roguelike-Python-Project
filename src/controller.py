@@ -9,12 +9,13 @@ from src import healthBar
 #from src import score
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
+#put docstrings into models
 #dialoguebox
 #highscore
 #score
 #mana
 #healthBar
-#make hero.py get x and y values as param
+#make hero.py get x and y values as parameters [[[DONE]]]
 #hero.item: add limited usage and health limit
 #hero.magic [[[DONE]]]
 #implement mana system into hero.magic
@@ -28,7 +29,7 @@ from src import healthBar
 #multiple fights [[[DONE]]]
 #animations?
 #music
-#JSON compatability
+#JSON compatability [[[DONE]]]
 
 class controller:
     def __init__(self):
@@ -81,6 +82,7 @@ class controller:
         fptr = open("src/info.json", 'r')
         maps = json.load(fptr)
         self.map = maps.get(random.choice(list(maps)))
+        fptr.close()
 
         #the following sets up the battles using the chosen map
         self.monsters1 = pygame.sprite.Group()
@@ -125,7 +127,7 @@ class controller:
         #self.monsters3.add(monster.monster(1000, 200, 30, 'boss', 50, True))
         #self.monsters3.add(monster.monster(300, 50, 50, 'slime', 15))
         #self.monstersAlive3 = 2
-        self.monster = monster.monster(300, 50, 50, 'slime', 15) #this is a test monster, dont include in game
+        #self.monster = monster.monster(300, 50, 50, 'slime', 15) #this is a test monster, dont include in game
         #self.battles = [self.monsters1, self.monsters2, self.monsters3]
         #self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
 
@@ -175,8 +177,8 @@ class controller:
         Args: None
         Return: None
         """
-        samurai = hero.Hero('samurai', 500, 100, 200) #this info will be imported from a JSON file
-        samuraiButton = button.button(self.screenWidth/4, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
+        samurai = hero.Hero('samurai', 500, 100, 200, 700, 300, 'assets/samaraiSmall.png')
+        samuraiButton = button.button(700, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
         self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
 
         #test class
@@ -272,7 +274,7 @@ class controller:
                 self.target = sprite
 
             #while loop to battle until victory or defeat
-            while self.enemyCount[i] != 0:
+            while self.enemyCount[i] != 0 and self.state != "gameOver":
 
                 #event loop
                 for e in pygame.event.get():
@@ -318,9 +320,6 @@ class controller:
                 self.heroHealthBar.update(self.hero.health)
 
                 #monster death check
-                #self.monster.deathCheck()
-                #if self.monster.alive == False:
-                    #self.state = "victoryScreen"
                 for sprite in monsters:
                     sprite.deathCheck()
                     if sprite.alive == False:
@@ -332,7 +331,6 @@ class controller:
                         #self.state = "victoryScreen"
 
                 #hero death check
-                self.hero.update()
                 if self.hero.alive == False:
                     self.state = "gameOver"
 
@@ -348,7 +346,12 @@ class controller:
             #i += 1
             #enemiesAlive = self.enemyCount[i]
 
-        self.state = "victoryScreen"
+        #if self.hero.health <= 0:
+            #self.state = "gameOver"
+        if self.hero.alive:
+            self.state = "victoryScreen"
+        else:
+            self.state = "gameOver"
 
 #-----------------------------------------------------------------
 #-----------------------------------------------------------------

@@ -36,7 +36,6 @@ class monster(pygame.sprite.Sprite):
          hero.health -= damage
          print("damage to hero:" + str(damage))
          if hero.health < 1:
-            hero.health = 0
             hero.alive = False
       else:
          hero.defend = False
