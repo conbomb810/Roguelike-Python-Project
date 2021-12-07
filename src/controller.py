@@ -6,7 +6,7 @@ from src import hero
 from src import button
 from src import monster
 from src import healthBar
-#from src import score
+from src import score
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #put docstrings into models
@@ -61,6 +61,9 @@ class controller:
         self.battleBackground = pygame.image.load("assets/battleBackground.jpg").convert_alpha()
         self.moveBox = pygame.image.load("assets/moveBox.png").convert_alpha()
         self.dialogueBox = pygame.image.load("assets/dialogueBoxNew.png").convert_alpha()
+
+        #self.score = score.score(x, y)
+        #self.highScore = highscore.highscore(x, y) #read from json file
 
         self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
         self.quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
