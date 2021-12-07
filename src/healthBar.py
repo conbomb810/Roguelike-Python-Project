@@ -14,14 +14,18 @@ class healthBar(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.x = x
+        self.y = y
 
     def update(self, hp):
-        #current = self.health - hp
         self.health = hp
-        print(self.health)
         if self.health >= 0:
             self.healthStr = f"{self.health} / {self.maxHealth}"
         else:
             self.healthStr = f"0 / {self.maxHealth}"
-
         self.bar = self.font.render(self.healthStr, False, (0,0,0), (200,0,0))
+        self.image = self.bar
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
