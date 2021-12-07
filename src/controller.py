@@ -1,4 +1,6 @@
 import pygame
+import json
+import random
 #from src import highscore
 from src import hero
 from src import button
@@ -7,11 +9,13 @@ from src import healthBar
 from src import score
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
+#put docstrings into models
 #dialoguebox
 #highscore
 #score
 #mana
 #healthBar
+#make hero.py get x and y values as parameters [[[DONE]]]
 #hero.item: add limited usage and health limit
 #hero.magic [[[DONE]]]
 #implement mana system into hero.magic
@@ -25,6 +29,7 @@ from src import score
 #multiple fights [[[DONE]]]
 #animations?
 #music
+#JSON compatability [[[DONE]]]
 
 class controller:
     def __init__(self):
@@ -57,6 +62,9 @@ class controller:
         self.moveBox = pygame.image.load("assets/moveBox.png").convert_alpha()
         self.dialogueBox = pygame.image.load("assets/dialogueBoxNew.png").convert_alpha()
 
+        #self.score = score.score(x, y)
+        #self.highScore = highscore.highscore(x, y) #read from json file
+
         self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
         self.quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
         self.attackButton = button.button(1090, 70, "Attack", 35, (255,255,255), None)
@@ -72,21 +80,59 @@ class controller:
         self.heroHealthBar = None
         #self.highscore = highscore.highscore(500, 200)
 
-        #import the following from JSON file
+
+        #read in JSON file with all of the maps in the game and randomly pick one to use
+        fptr = open("src/info.json", 'r')
+        maps = json.load(fptr)
+        self.map = maps.get(random.choice(list(maps)))
+        fptr.close()
+
+        #the following sets up the battles using the chosen map
         self.monsters1 = pygame.sprite.Group()
-        self.monsters1.add(monster.monster(300, 50, 50, 'slime'))
-        self.monsters1.add(monster.monster(300, 50, 150, 'slime'))
-        self.monstersAlive1 = 2
         self.monsters2 = pygame.sprite.Group()
-        self.monsters2.add(monster.monster(600, 50, 50, 'oni'))
-        self.monstersAlive2 = 1
         self.monsters3 = pygame.sprite.Group()
-        self.monsters3.add(monster.monster(1000, 200, 30, 'boss', True))
-        self.monsters3.add(monster.monster(300, 50, 50, 'slime'))
-        self.monstersAlive3 = 2
-        self.monster = monster.monster(300, 50, 50, 'slime') #this is a test monster, dont include in game
         self.battles = [self.monsters1, self.monsters2, self.monsters3]
+
+        self.monstersAlive1 = 1
+        self.monstersAlive2 = 1
+        self.monstersAlive3 = 1
         self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
+        
+        boss = False
+        count = 0
+        i = 0
+        for battle in self.map:
+            for monst in battle:
+                if monst.get("type") == "boss":
+                    boss = True
+                else:
+                    boss = False
+                self.battles[i].add(monster.monster(monst.get("hp"), monst.get("x"), monst.get("y"), monst.get("type"), monst.get("strength"), boss))
+                count += 1
+            self.enemyCount[i] = count
+            count = 0
+            i += 1
+
+        #gameMap1 = pygame.sprite.Group()
+        #gameMap2 = pygame.sprite.Group()
+        #gameMap3 = pygame.sprite.Group()
+
+
+        #import the following from JSON file
+        #self.monsters1 = pygame.sprite.Group()
+        #self.monsters1.add(monster.monster(300, 50, 50, 'slime', 15))
+        #self.monsters1.add(monster.monster(300, 50, 150, 'slime', 15))
+        #self.monstersAlive1 = 2
+        #self.monsters2 = pygame.sprite.Group()
+        #self.monsters2.add(monster.monster(600, 50, 50, 'oni', 30))
+        #self.monstersAlive2 = 1
+        #self.monsters3 = pygame.sprite.Group()
+        #self.monsters3.add(monster.monster(1000, 200, 30, 'boss', 50, True))
+        #self.monsters3.add(monster.monster(300, 50, 50, 'slime', 15))
+        #self.monstersAlive3 = 2
+        #self.monster = monster.monster(300, 50, 50, 'slime', 15) #this is a test monster, dont include in game
+        #self.battles = [self.monsters1, self.monsters2, self.monsters3]
+        #self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
 
         self.allSprites = None
         
@@ -134,8 +180,8 @@ class controller:
         Args: None
         Return: None
         """
-        samurai = hero.Hero('samurai', 500, 100, 200) #this info will be imported from a JSON file
-        samuraiButton = button.button(self.screenWidth/4, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
+        samurai = hero.Hero('samurai', 500, 100, 200, 700, 300, 'assets/samaraiSmall.png')
+        samuraiButton = button.button(700, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
         self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
 
         #test class
@@ -215,10 +261,6 @@ class controller:
         Args: None
         Return: None
         """
-        #read in JSON file with all of the maps in the game and randomly pick one to use
-        #gameMap1 = pygame.sprite.Group()
-        #gameMap2 = pygame.sprite.Group()
-        #gameMap3 = pygame.sprite.Group()
         
         #pygame.mixer.music.load("assets/")
 
@@ -235,7 +277,7 @@ class controller:
                 self.target = sprite
 
             #while loop to battle until victory or defeat
-            while self.enemyCount[i] != 0:
+            while self.enemyCount[i] != 0 and self.state != "gameOver":
 
                 #event loop
                 for e in pygame.event.get():
@@ -281,9 +323,6 @@ class controller:
                 self.heroHealthBar.update(self.hero.health)
 
                 #monster death check
-                #self.monster.deathCheck()
-                #if self.monster.alive == False:
-                    #self.state = "victoryScreen"
                 for sprite in monsters:
                     sprite.deathCheck()
                     if sprite.alive == False:
@@ -295,7 +334,6 @@ class controller:
                         #self.state = "victoryScreen"
 
                 #hero death check
-                self.hero.update()
                 if self.hero.alive == False:
                     self.state = "gameOver"
 
@@ -311,7 +349,12 @@ class controller:
             #i += 1
             #enemiesAlive = self.enemyCount[i]
 
-        self.state = "victoryScreen"
+        #if self.hero.health <= 0:
+            #self.state = "gameOver"
+        if self.hero.alive:
+            self.state = "victoryScreen"
+        else:
+            self.state = "gameOver"
 
 #-----------------------------------------------------------------
 #-----------------------------------------------------------------

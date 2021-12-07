@@ -7,13 +7,13 @@ import random
 #Make a list of moves the Hero can choose from
 
 class Hero(pygame.sprite.Sprite):
-   def __init__(self, name, health, potion, strength):
+   def __init__(self, name, health, potion, strength, x, y, image):
       super().__init__()
-      self.image = pygame.image.load('assets/samaraiSmall.png').convert_alpha()
+      self.image = pygame.image.load(image).convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(-25, 25)
-      self.rect.x = 700
-      self.rect.y = 300
+      self.rect.x = x
+      self.rect.y = y
       self.alive = True
       self.defend = False
       self.name = name
@@ -32,7 +32,8 @@ class Hero(pygame.sprite.Sprite):
 
    
    def update(self):
-      self.hero_health()
+      if self.health <= 0:
+         self.alive = False
 
    def attack(self, monster): #damage to monster
       """

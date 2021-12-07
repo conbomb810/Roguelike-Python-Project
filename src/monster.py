@@ -2,7 +2,7 @@ import pygame
 import random
 class monster(pygame.sprite.Sprite):
    
-   def __init__(self, health, x, y, monType, isBoss=False):
+   def __init__(self, health, x, y, monType, strength, isBoss=False):
 #need to import hero class data from text file
       super().__init__()
       self.monType = monType
@@ -22,6 +22,7 @@ class monster(pygame.sprite.Sprite):
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
+      self.strength = strength
       self.isBoss = isBoss
       #self.health.ratio = self.max_health/self.bar_len
       """setting parameters for starting position and also setting the health of the monster."""
@@ -31,11 +32,10 @@ class monster(pygame.sprite.Sprite):
 
    def attack(self, hero): #damage
       if hero.defend == False:
-         damage = random.randint(0, 50)
+         damage = self.strength + random.randint(0, 10)
          hero.health -= damage
          print("damage to hero:" + str(damage))
          if hero.health < 1:
-            hero.health = 0
             hero.alive = False
       else:
          hero.defend = False
