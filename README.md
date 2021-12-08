@@ -28,7 +28,7 @@
 ![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/classmenu.png)
 ![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/battlemenu.png)
 ![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/gameovermenu.png)
-![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/victtorymenu.png)
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/victorymenu.png)
 
 ***        
 
