@@ -7,13 +7,13 @@ class monster(pygame.sprite.Sprite):
       super().__init__()
       self.monType = monType
       if monType == 'slime':
-         self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
+         self.image = pygame.image.load('assets/monsterSmall.png').convert_alpha()
       elif monType == 'oni':
          self.image = pygame.image.load('assets/Oni.png').convert_alpha()
       elif monType == 'boss':
          self.image = pygame.image.load('assets/boss.png').convert_alpha()
       else:
-         self.image = pygame.image.load('assets/monsterSmall.jpg').convert_alpha()
+         self.image = pygame.image.load('assets/monsterSmall.png').convert_alpha()
       self.rect = self.image.get_rect()
       self.rect.inflate_ip(25, 25)
       self.alive = True
@@ -50,13 +50,13 @@ class monster(pygame.sprite.Sprite):
    def deathCheck(self):
       if self.health == 0:
          if self.monType == 'slime':
-            self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
+            self.image = pygame.image.load('assets/monsterDead.png').convert_alpha()
          elif self.monType == 'oni':
             self.image = pygame.image.load('assets/OniDead.png').convert_alpha()
          elif self.monType == 'boss':
             self.image = pygame.image.load('assets/bossDead.png').convert_alpha()
          else:
-            self.image = pygame.image.load('assets/monsterDead.jpg').convert_alpha()
+            self.image = pygame.image.load('assets/monsterDead.png').convert_alpha()
       
 
    def get_damage(self, amount):

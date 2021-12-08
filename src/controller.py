@@ -10,29 +10,6 @@ from src import score
 from src import dialoguebox
 from src import manaBar
 
-#LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
-#put docstrings into models
-#dialoguebox [[[DONE]]]
-#highscore
-#score [[[DONE]]]
-#mana [[[DONE]]]
-#healthBar [[[DONE]]]
-#make hero.py get x and y values as parameters [[[DONE]]]
-#hero.item: add limited usage and health limit [[[DONE]]]
-#hero.magic [[[DONE]]]
-#implement mana system into hero.magic [[[DONE]]]
-#hero.defend [[[DONE]]]
-
-#LIST OF THINGS I NEED TO WORK:
-#monster removing it's own attack capabilities when alive = False [[[DONE]]]
-
-#LIST OF THINGS TO IMPLEMENT (not including the above):
-#multiple enemies [[[DONE]]]
-#multiple fights [[[DONE]]]
-#animations?
-#music
-#JSON compatability [[[DONE]]]
-
 class controller:
     def __init__(self):
         """
@@ -210,7 +187,8 @@ class controller:
         Return: None
         """
         
-        #pygame.mixer.music.load("assets/")
+        pygame.mixer.music.load('assets/muramasaTheme.mp3')
+        pygame.mixer.music.play(-1)
         damage = 0
         i = -1
         enemiesAlive = self.enemyCount[i]
@@ -314,7 +292,7 @@ class controller:
 
     def gameOverLoop(self):
         """
-        This is the loop for when you suck at this game
+        This is the loop for when you suck at this game and die
         Args: None
         Return: None
         """
@@ -348,7 +326,7 @@ class controller:
 
     def victoryLoop(self):
         """
-        This is the loop for when you are decent at gaming and you win
+        This is the loop for when you are decent at gaming and you defeat the last battle
         Args: None
         Return: None
         """
