@@ -8,6 +8,7 @@ from src import monster
 from src import healthBar
 from src import score
 from src import dialoguebox
+from src import manaBar
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #put docstrings into models
@@ -75,10 +76,10 @@ class controller:
 
         self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
         self.quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
-        self.attackButton = button.button(1090, 70, "Attack", 35, (255,255,255), None)
-        self.magicButton = button.button(1090, 110, "Magic", 35, (255,255,255), None)
-        self.itemButton = button.button(1090, 150, "Item", 35, (255,255,255), None)
-        self.defendButton = button.button(1090, 190, "Defend", 35, (255,255,255), None)
+        self.attackButton = button.button(1090, 110, "Attack", 35, (255,255,255), None)
+        self.magicButton = button.button(1090, 150, "Magic", 35, (255,255,255), None)
+        self.itemButton = button.button(1090, 190, "Item", 35, (255,255,255), None)
+        self.defendButton = button.button(1090, 230, "Defend", 35, (255,255,255), None)
         self.youSuck = button.button(self.screenWidth/3, 100, "GAME OVER, YOU SUCK", 35, (0,0,0), None)
         self.victory = button.button(self.screenWidth/2, 100, "VICTORY!", 35, (0,0,0), None)
 
@@ -86,6 +87,7 @@ class controller:
 
         self.hero = None
         self.heroHealthBar = None
+        self.heroManaBar = None
         #self.highscore = highscore.highscore(500, 200)
 
 
@@ -167,9 +169,9 @@ class controller:
         Args: None
         Return: None
         """
-        samurai = hero.Hero('samurai', 500, 100, 200, 20, 800, 300, 'assets/samaraiSmall.png')
+        samurai = hero.Hero('samurai', 500, 100, 100, 200, 20, 800, 300, 'assets/samaraiSmall.png')
         samuraiButton = button.button(800, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
-        ninja = hero.Hero('ninja', 300, 150, 70, 200, 400, 200, 'assets/ninja.png')
+        ninja = hero.Hero('ninja', 300, 100, 150, 70, 200, 400, 200, 'assets/ninja.png')
         ninjaButton = button.button(400, self.screenHeight*3/4, "Ninja", 40, (0,0,0), (255,255,255))
 
         self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,) + (ninja,) + (ninjaButton,))
@@ -182,10 +184,12 @@ class controller:
                 if samuraiButton.rect.collidepoint(mouse):
                     self.hero = samurai
                     self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
+                    self.heroManaBar = manaBar.manaBar(1090, 70, self.hero.mana, self.hero.maxMana)
                     self.state = "battleLoop"
                 elif ninjaButton.rect.collidepoint(mouse):
                     self.hero = ninja
                     self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
+                    self.heroManaBar = manaBar.manaBar(1090, 70, self.hero.mana, self.hero.maxMana)
                     self.hero.rect.x = 850
                     self.hero.rect.y = 200
                     self.state = "battleLoop"
@@ -215,7 +219,7 @@ class controller:
         enemiesAlive = self.enemyCount[i]
         #for loop for how many battles there are in the map
         for monsters in self.battles:
-            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,) + (self.dialogue1,) + (self.dialogue2,) + (self.dialogue3,) + (self.score,))
+            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,) + (self.dialogue1,) + (self.dialogue2,) + (self.dialogue3,) + (self.score,) + (self.heroManaBar,))
 
             i += 1
             enemiesAlive = self.enemyCount[i]
@@ -241,11 +245,12 @@ class controller:
                                     damage += sprite.attack(self.hero)
                                 self.dialogue3.update("Damage to Hero: " + str(damage))
                         if self.magicButton.rect.collidepoint(mouse):
-                            self.hero.useMagic(self.target, self.dialogue1)
-                            for sprite in monsters:
-                                if sprite.alive:
-                                    damage += sprite.attack(self.hero)
-                                self.dialogue3.update("Damage to Hero: " + str(damage))
+                            magicUsage = self.hero.useMagic(self.target, self.dialogue1)
+                            if magicUsage == True:
+                                for sprite in monsters:
+                                    if sprite.alive:
+                                        damage += sprite.attack(self.hero)
+                                    self.dialogue3.update("Damage to Hero: " + str(damage))
                         if self.itemButton.rect.collidepoint(mouse):
                             itemUsage = self.hero.useItem(self.dialogue1, self.dialogue2)
                             if itemUsage == True:
@@ -269,9 +274,10 @@ class controller:
 
 
                 #update models
-                #health bar decrease
+                #health bar/mana bar decrease
                 self.hero.update()
                 self.heroHealthBar.update(self.hero.health)
+                self.heroManaBar.update(self.hero.mana)
 
                 #monster death check
                 for sprite in monsters:
