@@ -7,7 +7,7 @@ import random
 #Make a list of moves the Hero can choose from
 
 class Hero(pygame.sprite.Sprite):
-   def __init__(self, name, health, potion, strength, x, y, image):
+   def __init__(self, name, health, potion, strength, magic, x, y, image):
       super().__init__()
       self.image = pygame.image.load(image).convert_alpha()
       self.rect = self.image.get_rect()
@@ -18,8 +18,9 @@ class Hero(pygame.sprite.Sprite):
       self.defend = False
       self.name = name
       self.item = potion
+      self.item_use = 3
       self.strength = strength
-      self.magic = 20
+      self.magic = magic
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
@@ -48,23 +49,27 @@ class Hero(pygame.sprite.Sprite):
       print("monster health remaining:" + str(monster.health))
       print("damage to monster:" + str(damage))
    
-   def useMagic(self, monster):
+   def useMagic(self, monster, dialogue):
       rand = random.randint(0, 20)
       damage = self.magic + rand
       monster.health -= damage
       if monster.health < 1:
          monster.health = 0
          monster.alive = False
-      print("monster health remaining:" + str(monster.health))
-      print("damage to monster:" + str(damage))
+      dialogue.update("monster health remaining:" + str(monster.health))
+      dialogue.update("damage to monster:" + str(damage))
 
    def useItem(self):
-      if self.item_use > 1:
-      self.health = self.health + self.item
-      print("hero health remaining" + str(self.health))
-      print ("items remaining" + item)
+      if self.item_use > 0:
+         if (self.health + self.item) <= self.max_health:
+            self.health = self.health + self.item
+         else:
+            self.health = self.max_health
+         self.item_use -= 1
+         print ("items remaining" + str(self.item_use))
+         return True
       else:
-         return none
+         return False
       
    def defending(self):
       self.defend = True

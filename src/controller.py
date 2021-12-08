@@ -7,6 +7,7 @@ from src import button
 from src import monster
 from src import healthBar
 from src import score
+from src import dialoguebox
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #put docstrings into models
@@ -61,6 +62,7 @@ class controller:
         self.battleBackground = pygame.image.load("assets/battleBackground.jpg").convert_alpha()
         self.moveBox = pygame.image.load("assets/moveBox.png").convert_alpha()
         self.dialogueBox = pygame.image.load("assets/dialogueBoxNew.png").convert_alpha()
+        self.dialogue = dialoguebox.dialoguebox(30, 600, "Battle 1/3", 48, (255,255,255))
 
         #self.score = score.score(x, y)
         #self.highScore = highscore.highscore(x, y) #read from json file
@@ -113,27 +115,6 @@ class controller:
             count = 0
             i += 1
 
-        #gameMap1 = pygame.sprite.Group()
-        #gameMap2 = pygame.sprite.Group()
-        #gameMap3 = pygame.sprite.Group()
-
-
-        #import the following from JSON file
-        #self.monsters1 = pygame.sprite.Group()
-        #self.monsters1.add(monster.monster(300, 50, 50, 'slime', 15))
-        #self.monsters1.add(monster.monster(300, 50, 150, 'slime', 15))
-        #self.monstersAlive1 = 2
-        #self.monsters2 = pygame.sprite.Group()
-        #self.monsters2.add(monster.monster(600, 50, 50, 'oni', 30))
-        #self.monstersAlive2 = 1
-        #self.monsters3 = pygame.sprite.Group()
-        #self.monsters3.add(monster.monster(1000, 200, 30, 'boss', 50, True))
-        #self.monsters3.add(monster.monster(300, 50, 50, 'slime', 15))
-        #self.monstersAlive3 = 2
-        #self.monster = monster.monster(300, 50, 50, 'slime', 15) #this is a test monster, dont include in game
-        #self.battles = [self.monsters1, self.monsters2, self.monsters3]
-        #self.enemyCount = [self.monstersAlive1, self.monstersAlive2, self.monstersAlive3]
-
         self.allSprites = None
         
 
@@ -180,13 +161,13 @@ class controller:
         Args: None
         Return: None
         """
-        samurai = hero.Hero('samurai', 500, 100, 200, 700, 300, 'assets/samaraiSmall.png')
-        samuraiButton = button.button(700, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
-        self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,))
+        samurai = hero.Hero('samurai', 500, 100, 200, 20, 800, 300, 'assets/samaraiSmall.png')
+        samuraiButton = button.button(800, self.screenHeight*3/4, "Samurai", 48, (0,0,0), (255,255,255))
+        ninja = hero.Hero('ninja', 300, 150, 70, 200, 400, 200, 'assets/ninja.png')
+        ninjaButton = button.button(400, self.screenHeight*3/4, "Ninja", 40, (0,0,0), (255,255,255))
 
-        #test class
-        #need to draw the hero and monsterssamurai
-        #draw healthbars
+        self.allSprites = pygame.sprite.Group((samuraiButton,) + (samurai,) + (ninja,) + (ninjaButton,))
+
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 exit()
@@ -196,7 +177,12 @@ class controller:
                     self.hero = samurai
                     self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
                     self.state = "battleLoop"
-            #add more classes once we have it set up correctly
+                elif ninjaButton.rect.collidepoint(mouse):
+                    self.hero = ninja
+                    self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
+                    self.hero.rect.x = 850
+                    self.hero.rect.y = 200
+                    self.state = "battleLoop"
 
         #update data
 
@@ -209,51 +195,6 @@ class controller:
 #-----------------------------------------------------------------
 #---------------------Bellow is Battle Loop-----------------------
 
-
-    #MAKE USE OF UPDATE METHODS
-    #USE THE UPDATE METHOD IN monster.py TO CHANGE ITS HEALTH ACCORDING TO DAMAGE TAKEN FROM PLAYER
-    #USE THE UPDATE METHOD IN hero.py TO CHANGE ITS HEALTH ACCORDING TO DAMAGE TAKEN FROM MONSTERS
-    """
-    def playerTurnLoop(self):
-        #actions allowed during player turn
-        #event loop
-        for e in range(10):#"HERO ACTIONS AMOUNT"):
-            
-            if e.type == pygame.QUIT:
-                exit()
-            #Check which action the user clicks, and use said action
-        #need to add healthbar decrese when monster attacks
-
-        #check if all monsters are dead, if not change to monsterTurnLoop
-        numAlive = 0
-        for i in self.monsters:
-            if i.health >= 0:
-                numAlive += 1
-        if numAlive > 0:
-            self.state = "monsterTurn"
-        else:
-            self.state = "mapLoop"
-
-
-
-    def monsterTurnLoop(self):
-        #enemy calculations, change healthbars, kill player
-        #no event loop
-        
-        #monster actions
-        self.dialoguebox.clear() #will clear the dialogue box text and stored string
-        for i in self.monsters:
-            i.attack() #will pick a move randomly and use it (i.e. attack player or heal self)
-            #add to the text that will appear in the dialogue box
-            self.dialoguebox.addToText(i) #this implies the use of __str__ in monster.py to be what dialogue box outputs
-            
-        #check if player is dead, if not change to playerTurnLoop
-        if self.hero.health <= 0:
-            self.state = "gameOver"
-        else:
-            self.state = "playerTurn"
-    """
-        
     def battleLoop(self):
         """
         This is the loop that will handle the majority of the game's functionalities, including each
@@ -268,7 +209,7 @@ class controller:
         enemiesAlive = self.enemyCount[i]
         #for loop for how many battles there are in the map
         for monsters in self.battles:
-            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,))
+            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,) + (self.dialogue,))
 
             i += 1
             enemiesAlive = self.enemyCount[i]
@@ -287,27 +228,27 @@ class controller:
                         mouse = pygame.mouse.get_pos()
                         if self.attackButton.rect.collidepoint(mouse):
                             #hero attack
-                            self.hero.attack(self.target)  #replace self.monster with self.target for multiple enemies
+                            self.hero.attack(self.target)
                             #monsters attack
-                            #self.monster.attack(self.hero) #print monster attack to dialogue box once it works :)
+                            #print monster attack to dialogue box once it works :)
                             for sprite in monsters:
                                 if sprite.alive:
                                     sprite.attack(self.hero)
                         if self.magicButton.rect.collidepoint(mouse):
-                            self.hero.useMagic(self.target)
-                            #self.monster.attack(self.hero)
+                            self.hero.useMagic(self.target, self.dialogue)
                             for sprite in monsters:
                                 if sprite.alive:
                                     sprite.attack(self.hero)
                         if self.itemButton.rect.collidepoint(mouse):
-                            self.hero.useItem()
-                            #self.monster.attack(self.hero)
-                            for sprite in monsters:
-                                if sprite.alive:
-                                    sprite.attack(self.hero)
+                            itemUsage = self.hero.useItem()
+                            if itemUsage == True:
+                                for sprite in monsters:
+                                    if sprite.alive:
+                                        sprite.attack(self.hero)
+                            else:
+                                print("no more items")
                         if self.defendButton.rect.collidepoint(mouse):
                             self.hero.defending()
-                            #self.monster.attack(self.hero)
                             for sprite in monsters:
                                 if sprite.alive:
                                     sprite.attack(self.hero)
@@ -330,8 +271,6 @@ class controller:
                         monsters.remove(sprite)
                         for sprite in monsters:
                             self.target = sprite
-                    #if self.monstersAlive1 == 0:
-                        #self.state = "victoryScreen"
 
                 #hero death check
                 if self.hero.alive == False:
@@ -346,11 +285,6 @@ class controller:
                 #update screen
                 pygame.display.flip()
 
-            #i += 1
-            #enemiesAlive = self.enemyCount[i]
-
-        #if self.hero.health <= 0:
-            #self.state = "gameOver"
         if self.hero.alive:
             self.state = "victoryScreen"
         else:
@@ -441,7 +375,5 @@ class controller:
             self.gameOverLoop()
         while self.state == "victoryScreen":
             self.victoryLoop()
-        while self.state == "mapLoop":
-            self.mapLoop()
             
             
