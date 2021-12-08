@@ -11,13 +11,13 @@ from src import dialoguebox
 
 #LIST OF THINGS I CAN'T DO BECAUSE I DON'T HAVE THEIR MODELS/THEY ARENT WORKING:
 #put docstrings into models
-#dialoguebox
+#dialoguebox [[[DONE]]]
 #highscore
-#score
+#score [[[DONE]]]
 #mana
-#healthBar
+#healthBar [[[DONE]]]
 #make hero.py get x and y values as parameters [[[DONE]]]
-#hero.item: add limited usage and health limit
+#hero.item: add limited usage and health limit [[[DONE]]]
 #hero.magic [[[DONE]]]
 #implement mana system into hero.magic
 #hero.defend [[[DONE]]]
@@ -61,7 +61,7 @@ class controller:
         self.winBackground.fill((0, 200, 0))
         self.battleBackground = pygame.image.load("assets/battleBackground.jpg").convert_alpha()
         self.moveBox = pygame.image.load("assets/moveBox.png").convert_alpha()
-        
+
         self.dialogueBox = pygame.image.load("assets/dialogueBoxNew.png").convert_alpha()
         self.dialogue1 = dialoguebox.dialoguebox(30, 600, "Battle 1/3", 24, (255,255,255))
         self.dialogue2 = dialoguebox.dialoguebox(30, 625, " ", 20, (255,255,255))
@@ -70,7 +70,7 @@ class controller:
         #self.dialogue5 = dialoguebox.dialoguebox(30, 700, " ", 20, (255,255,255))
         #self.dialogue = [self.dialogue1, self.dialogue2, self.dialogue3, self.dialogue4, self.dialogue5]
 
-        #self.score = score.score(x, y)
+        self.score = score.score(1090, 500, 35, (255,255,255), None)#(255,255,153))
         #self.highScore = highscore.highscore(x, y) #read from json file
 
         self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
@@ -215,7 +215,7 @@ class controller:
         enemiesAlive = self.enemyCount[i]
         #for loop for how many battles there are in the map
         for monsters in self.battles:
-            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,) + (self.dialogue1,) + (self.dialogue2,) + (self.dialogue3,))
+            allSprites = pygame.sprite.Group((self.hero,) + (monsters,) + (self.attackButton,) + (self.magicButton,) + (self.heroHealthBar,) + (self.itemButton,) + (self.defendButton,) + (self.dialogue1,) + (self.dialogue2,) + (self.dialogue3,) + (self.score,))
 
             i += 1
             enemiesAlive = self.enemyCount[i]
@@ -236,7 +236,6 @@ class controller:
                             #hero attack
                             self.hero.attack(self.target, self.dialogue1)
                             #monsters attack
-                            #print monster attack to dialogue box once it works :)
                             for sprite in monsters:
                                 if sprite.alive:
                                     damage += sprite.attack(self.hero)
@@ -279,6 +278,10 @@ class controller:
                     sprite.deathCheck()
                     if sprite.alive == False:
                         self.enemyCount[i] -=1
+                        if sprite.isBoss == False:
+                            self.score.incrementByKill()
+                        else:
+                            self.score.incrementByBoss()
                         monsters.remove(sprite)
                         for sprite in monsters:
                             self.target = sprite
@@ -296,6 +299,8 @@ class controller:
                 #update screen
                 pygame.display.flip()
 
+            self.score.incrementBonus(self.hero.health)
+
         if self.hero.alive:
             self.state = "victoryScreen"
         else:
@@ -311,7 +316,7 @@ class controller:
         Return: None
         """
         
-        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.youSuck,))
+        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.youSuck,) + (self.score,))
 
         #event loop
         for e in pygame.event.get():
@@ -344,7 +349,7 @@ class controller:
         Return: None
         """
         
-        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.victory,))
+        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.victory,) + (self.score,))
 
         #event loop
         for e in pygame.event.get():
