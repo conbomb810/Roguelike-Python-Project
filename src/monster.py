@@ -34,11 +34,12 @@ class monster(pygame.sprite.Sprite):
       if hero.defend == False:
          damage = self.strength + random.randint(0, 10)
          hero.health -= damage
-         print("damage to hero:" + str(damage))
+         return damage
          if hero.health < 1:
             hero.alive = False
       else:
          hero.defend = False
+         return 0
 
    """
    calculates damage and adds randomized amount to it, then substracts that from health of hero

@@ -36,7 +36,7 @@ class Hero(pygame.sprite.Sprite):
       if self.health <= 0:
          self.alive = False
 
-   def attack(self, monster): #damage to monster
+   def attack(self, monster, dialogue): #damage to monster
       """
       calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
       """
@@ -46,8 +46,8 @@ class Hero(pygame.sprite.Sprite):
       if monster.health < 1:
          monster.health = 0
          monster.alive = False
-      print("monster health remaining:" + str(monster.health))
-      print("damage to monster:" + str(damage))
+      dialogue.update("monster health remaining:" + str(monster.health))
+      dialogue.update("damage to monster:" + str(damage))
    
    def useMagic(self, monster, dialogue):
       rand = random.randint(0, 20)
@@ -56,17 +56,20 @@ class Hero(pygame.sprite.Sprite):
       if monster.health < 1:
          monster.health = 0
          monster.alive = False
-      dialogue.update("monster health remaining:" + str(monster.health))
-      dialogue.update("damage to monster:" + str(damage))
+      dialogue.update("monster health remaining: " + str(monster.health))
+      dialogue.update("damage to monster: " + str(damage))
 
-   def useItem(self):
+   def useItem(self, dialogue, dialogue2):
       if self.item_use > 0:
-         if (self.health + self.item) <= self.max_health:
-            self.health = self.health + self.item
+         heal = self.health + self.item
+         if (heal) <= self.max_health:
+            self.health = heal
+            dialogue.update("Health restored: " + str(self.item))
          else:
             self.health = self.max_health
+            dialogue.update("Health completely restored")
          self.item_use -= 1
-         print ("items remaining" + str(self.item_use))
+         dialogue2.update("items remaining: " + str(self.item_use))
          return True
       else:
          return False
