@@ -1,7 +1,7 @@
 import pygame
 import json
 import random
-#from src import highscore
+from src import highscore
 from src import hero
 from src import button
 from src import monster
@@ -15,12 +15,12 @@ from src import manaBar
 #dialoguebox [[[DONE]]]
 #highscore
 #score [[[DONE]]]
-#mana
+#mana [[[DONE]]]
 #healthBar [[[DONE]]]
 #make hero.py get x and y values as parameters [[[DONE]]]
 #hero.item: add limited usage and health limit [[[DONE]]]
 #hero.magic [[[DONE]]]
-#implement mana system into hero.magic
+#implement mana system into hero.magic [[[DONE]]]
 #hero.defend [[[DONE]]]
 
 #LIST OF THINGS I NEED TO WORK:
@@ -67,19 +67,16 @@ class controller:
         self.dialogue1 = dialoguebox.dialoguebox(30, 600, "Battle 1/3", 24, (255,255,255))
         self.dialogue2 = dialoguebox.dialoguebox(30, 625, " ", 20, (255,255,255))
         self.dialogue3 = dialoguebox.dialoguebox(30, 650, " ", 20, (255,255,255))
-        #self.dialogue4 = dialoguebox.dialoguebox(30, 675, " ", 20, (255,255,255))
-        #self.dialogue5 = dialoguebox.dialoguebox(30, 700, " ", 20, (255,255,255))
-        #self.dialogue = [self.dialogue1, self.dialogue2, self.dialogue3, self.dialogue4, self.dialogue5]
 
         self.score = score.score(1090, 500, 35, (255,255,255), None)#(255,255,153))
-        #self.highScore = highscore.highscore(x, y) #read from json file
+        self.highscore = highscore.highscore(self.screenWidth/2, self.screenHeight/2)
 
-        self.startButton = button.button(self.screenWidth/2, self.screenHeight/2, "Start", 48, (0,0,0), (255,255,255))
+        self.startButton = button.button(self.screenWidth/2, self.screenHeight/4, "Start", 48, (0,0,0), (255,255,255))
         self.quitButton = button.button(self.screenWidth/2, self.screenHeight*3/4, "Quit", 48, (0,0,0), (255,0,0))
-        self.attackButton = button.button(1090, 110, "Attack", 35, (255,255,255), None)
-        self.magicButton = button.button(1090, 150, "Magic", 35, (255,255,255), None)
-        self.itemButton = button.button(1090, 190, "Item", 35, (255,255,255), None)
-        self.defendButton = button.button(1090, 230, "Defend", 35, (255,255,255), None)
+        self.attackButton = button.button(1090, 120, "Attack", 35, (255,255,255), None)
+        self.magicButton = button.button(1090, 160, "Magic", 35, (255,255,255), None)
+        self.itemButton = button.button(1090, 200, "Item", 35, (255,255,255), None)
+        self.defendButton = button.button(1090, 240, "Defend", 35, (255,255,255), None)
         self.youSuck = button.button(self.screenWidth/3, 100, "GAME OVER, YOU SUCK", 35, (0,0,0), None)
         self.victory = button.button(self.screenWidth/2, 100, "VICTORY!", 35, (0,0,0), None)
 
@@ -88,7 +85,7 @@ class controller:
         self.hero = None
         self.heroHealthBar = None
         self.heroManaBar = None
-        #self.highscore = highscore.highscore(500, 200)
+
 
 
         #read in JSON file with all of the maps in the game and randomly pick one to use
@@ -137,7 +134,7 @@ class controller:
         Return: None
         """
         
-        self.allSprites = pygame.sprite.Group((self.startButton,) + (self.quitButton,))
+        self.allSprites = pygame.sprite.Group((self.startButton,) + (self.quitButton,) + (self.highscore,))
 
         #event loop
         for e in pygame.event.get():
@@ -184,12 +181,12 @@ class controller:
                 if samuraiButton.rect.collidepoint(mouse):
                     self.hero = samurai
                     self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
-                    self.heroManaBar = manaBar.manaBar(1090, 70, self.hero.mana, self.hero.maxMana)
+                    self.heroManaBar = manaBar.manaBar(1090, 80, self.hero.mana, self.hero.maxMana)
                     self.state = "battleLoop"
                 elif ninjaButton.rect.collidepoint(mouse):
                     self.hero = ninja
                     self.heroHealthBar = healthBar.healthBar(1090, 30, self.hero.health, self.hero.max_health)
-                    self.heroManaBar = manaBar.manaBar(1090, 70, self.hero.mana, self.hero.maxMana)
+                    self.heroManaBar = manaBar.manaBar(1090, 80, self.hero.mana, self.hero.maxMana)
                     self.hero.rect.x = 850
                     self.hero.rect.y = 200
                     self.state = "battleLoop"
@@ -322,7 +319,7 @@ class controller:
         Return: None
         """
         
-        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.youSuck,) + (self.score,))
+        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.youSuck,) + (self.score,) + (self.highscore,))
 
         #event loop
         for e in pygame.event.get():
@@ -336,7 +333,8 @@ class controller:
                     print("ur bad lol")
 
         #update models
-        #save highscore if applicable
+        if self.score.currentScore > self.highscore.score:
+            self.highscore.update(self.score.currentScore)
 
         #redraw
         self.screen.blit(self.deathBackground, (0,0))
@@ -355,7 +353,7 @@ class controller:
         Return: None
         """
         
-        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.victory,) + (self.score,))
+        self.allSprites = pygame.sprite.Group((self.quitButton,) + (self.victory,) + (self.score,) + (self.highscore,))
 
         #event loop
         for e in pygame.event.get():
@@ -369,7 +367,8 @@ class controller:
                     print("ur good lol")
 
         #update models
-        #save highscore if applicable
+        if self.score.currentScore > self.highscore.score:
+            self.highscore.update(self.score.currentScore)
 
         #redraw
         self.screen.blit(self.winBackground, (0,0))
