@@ -1,15 +1,15 @@
 :warning: Everything between << >> needs to be replaced (remove << >> after replacing)
 # CS110 Project Proposal
-# << Project Title >>
+# Roguelite Dungeon
 ## CS 110 Final Project
-### << Semester, Year >>
+### Fall, 2021
 ### [Assignment Description](https://docs.google.com/document/d/1H4R6yLL7som1lglyXWZ04RvTp_RvRFCCBn6sqv-82ps/edit#)
 
 << [https://github.com/<repo>](#) >>
 
 << [link to demo presentation slides](#) >>
 
-### Team: << team name >>
+### Team: Middle Team
 #### << Middle team >>
 
 ***
@@ -20,11 +20,17 @@
 ***    
 
 ## User Interface Design *(Front End Specialist)*
-* << A wireframe or drawing of the user interface concept along with a short description of the interface. You should have one for each screen in your program. >>
-    * For example, if your program has a start screen, game screen, and game over screen, you should include a wireframe / screenshot / drawing of each one and a short description of the components
-* << You should also have a screenshot of each screen for your final GUI >>
+* The interface consists of 5 screens: A main menu, where the player starts the game. A class select menu, where the player selects their class. A battle screen, where the player actually plays the game and battles various enemies. A game over screen for when the play lose, and a victory screen for when the player wins. The following images are the concept art of the interfaces.
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/Snapchat-569155497.jpg)
 ![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/Snapchat-174583180.jpg)
-***        ![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/Snapchat-569155497.jpg)
+* The followiing images are the final depiction of the GUI
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/mainmenu.png)
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/classmenu.png)
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/battlemenu.png)
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/gameovermenu.png)
+![name-of-you-image](https://github.com/bucs110b1fall21/final-project-middle-team/blob/master/assets/victorymenu.png)
+
+***        
 
 ## Program Design *(Backend Specialist)*
 * Non-Standard libraries
@@ -59,9 +65,9 @@ The Project is broken down into the following file structure:
 
 << Worked as integration specialist by heavily modifying the sprite classes to fit in the controller and writing aditional functions inside to improve frontend efficiency. Also communicating between backend and frontend to see what minor problems arise and modifying /writing code they might.  >>
 
-### Front End Specialist - << name >>
+### Front End Specialist - Connor Meybohm
 
-<< Front-end lead conducted significant research on... >>
+As the Front End Specialist, I did significant research on pygame in general. I specifically delved into everything about the controller class, such as sprites, mixers, sprite groups, and events. I also did a good portion of backend work to make sure the models worked with the controller class. I also did a large amount of research in json formatting and the json module in order to properly use them in both the controller and the highscore.py class.
 
 ### Back End Specialist - << name >>
 
