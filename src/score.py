@@ -10,8 +10,8 @@ class score(pygame.sprite.Sprite):
       self.font = pygame.font.SysFont("caladea", size)
       self.pretext = "Score: "
       self.currentScore = 0
-      self.buttons = self.font.render(self.pretext + str(self.currentScore), False, txtColor, backColor)
-      self.image = self.buttons
+      self.scorebox = self.font.render(self.pretext + str(self.currentScore), False, txtColor, backColor)
+      self.image = self.scorebox
       self.rect = self.image.get_rect()
       self.rect.x = x
       self.rect.y = y
@@ -34,8 +34,8 @@ class score(pygame.sprite.Sprite):
 
 
    def recall(self):
-      self.buttons = self.font.render(self.pretext + str(self.currentScore), False, self.txtColor, self.backColor)
-      self.image = self.buttons
+      self.scorebox = self.font.render(self.pretext + str(self.currentScore), False, self.txtColor, self.backColor)
+      self.image = self.scorebox
       self.rect = self.image.get_rect()
       self.rect.x = self.x
       self.rect.y = self.y

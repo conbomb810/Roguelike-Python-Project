@@ -7,7 +7,7 @@ import random
 #Make a list of moves the Hero can choose from
 
 class Hero(pygame.sprite.Sprite):
-   def __init__(self, name, health, potion, strength, magic, x, y, image):
+   def __init__(self, name, health, mana, potion, strength, magic, x, y, image):
       super().__init__()
       self.image = pygame.image.load(image).convert_alpha()
       self.rect = self.image.get_rect()
@@ -21,6 +21,8 @@ class Hero(pygame.sprite.Sprite):
       self.item_use = 3
       self.strength = strength
       self.magic = magic
+      self.mana = mana
+      self.maxMana = mana
       self.health = health
       self.max_health = self.health
       self.bar_len = 400
@@ -50,14 +52,20 @@ class Hero(pygame.sprite.Sprite):
       dialogue.update("damage to monster:" + str(damage))
    
    def useMagic(self, monster, dialogue):
-      rand = random.randint(0, 20)
-      damage = self.magic + rand
-      monster.health -= damage
-      if monster.health < 1:
-         monster.health = 0
-         monster.alive = False
-      dialogue.update("monster health remaining: " + str(monster.health))
-      dialogue.update("damage to monster: " + str(damage))
+      if self.mana - 10 >= 0:
+         rand = random.randint(0, 20)
+         damage = self.magic + rand
+         monster.health -= damage
+         if monster.health < 1:
+            monster.health = 0
+            monster.alive = False
+         self.mana -= 10
+         dialogue.update("monster health remaining: " + str(monster.health))
+         dialogue.update("damage to monster: " + str(damage))
+         return True
+      else:
+         dialogue.update("Not enough mana, select another action")
+         return False
 
    def useItem(self, dialogue, dialogue2):
       if self.item_use > 0:
