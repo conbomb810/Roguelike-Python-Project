@@ -20,7 +20,8 @@ class highscore(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.scoreDictionary = None
-		
+		  
+
     def update(self, newScore):
         self.scoreStr = f"NEW HIGHSCORE: {newScore}"
         self.textbox = self.font.render(self.scoreStr, False, (0,0,0), (255,255,153))
@@ -32,3 +33,9 @@ class highscore(pygame.sprite.Sprite):
         fptr = open("src/HighScore.json", 'w')
         json.dump(self.scoreDictionary, fptr)
         fptr.close()
+
+        """
+        sets highscore to the largest score by opening and writing   Highscore.json. It then creates a sprite on screen to display this high score
+        args: none
+        return: none
+         """

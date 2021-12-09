@@ -1,10 +1,6 @@
 import pygame
 import random
 
-#need to import monster datat from text file
-#Shrink the size of the image to a manageable level
-#Allow controller to send arguments for the position of the Hero's image on screen (rect.x and rect.y i believe)
-#Make a list of moves the Hero can choose from
 
 class Hero(pygame.sprite.Sprite):
    def __init__(self, name, health, mana, potion, strength, magic, x, y, image):
@@ -28,7 +24,6 @@ class Hero(pygame.sprite.Sprite):
       self.bar_len = 400
       #self.health.ratio = self.max_health/self.bar_len
    #all stats can change based on what class is chosen, this is for testing. 
-   """sets image for characted adjust size, also sets size of hitbox for collision attacks"""
    
    def draw(self):
       self.blit(self.image, (self.rect.x, self.rect.y))
@@ -39,9 +34,6 @@ class Hero(pygame.sprite.Sprite):
          self.alive = False
 
    def attack(self, monster, dialogue): #damage to monster
-      """
-      calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
-      """
       rand = random.randint(0, 50)
       damage = self.strength + rand
       monster.health -= damage
@@ -50,6 +42,11 @@ class Hero(pygame.sprite.Sprite):
          monster.alive = False
       dialogue.update("monster health remaining:" + str(monster.health))
       dialogue.update("damage to monster:" + str(damage))
+      """
+      calculates damage based off of strength and randomizer, that amount is then taken off of the enemies health
+      args: none
+      return: none
+      """
    
    def useMagic(self, monster, dialogue):
       if self.mana - 10 >= 0:
@@ -66,6 +63,11 @@ class Hero(pygame.sprite.Sprite):
       else:
          dialogue.update("Not enough mana, select another action")
          return False
+      """
+      additional move for hero to attack monsters that uses mana bar model
+      args: none
+      return: True, False
+      """
 
    def useItem(self, dialogue, dialogue2):
       if self.item_use > 0:
@@ -81,6 +83,11 @@ class Hero(pygame.sprite.Sprite):
          return True
       else:
          return False
+      """
+      gives hero the function to use items such as potions to increase health up to 3 times
+      args: none
+      return: none
+      """
       
    def defending(self):
       self.defend = True
@@ -91,7 +98,9 @@ class Hero(pygame.sprite.Sprite):
       else:
          self.health = 0
    """
-   sets damage
+   sets damage applied to hero
+   args: none
+   return: none
    """
 
    def get_health(self, amount):
@@ -100,10 +109,13 @@ class Hero(pygame.sprite.Sprite):
       if self.health >= self.max_health:
          self.health = self.max_health
 #for getdamage and get healthfunc, must be added to event loop. when monster attacks hero health bar must go down
-
+   """
+   gets the health of the hero
+   args: none
+   return: none
+   """
 
    def hero_health(self):
-      """keeps health inside bar"""
       #just makeit pass back a number for now
       #pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
       #pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
