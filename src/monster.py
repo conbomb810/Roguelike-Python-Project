@@ -25,7 +25,6 @@ class monster(pygame.sprite.Sprite):
       self.strength = strength
       self.isBoss = isBoss
       #self.health.ratio = self.max_health/self.bar_len
-      """setting parameters for starting position and also setting the health of the monster."""
    
    def draw(self):
       self.blit(self.image, (self.rect.x, self.rect.y))
@@ -41,9 +40,11 @@ class monster(pygame.sprite.Sprite):
          hero.defend = False
          return 0
 
-   """
-   calculates damage and adds randomized amount to it, then substracts that from health of hero
-   """
+      """
+      calculates damage and adds randomized amount to it, then substracts that from health of hero. If hero chooses defend option then the health taken is zero.
+      args: none
+      return: 0
+      """
    def update(self, hero):
          self.attack(hero)
 
@@ -57,7 +58,11 @@ class monster(pygame.sprite.Sprite):
             self.image = pygame.image.load('assets/bossDead.png').convert_alpha()
          else:
             self.image = pygame.image.load('assets/monsterDead.png').convert_alpha()
-      
+   """
+   if monsterhealth is zero, then the image displayed on the gui is updated
+   args: none
+   return: none
+   """      
 
    def get_damage(self, amount):
       if self.health > 0:
@@ -66,17 +71,21 @@ class monster(pygame.sprite.Sprite):
          self.health = 0
          self.alive = False
 
-   """sets damage"""
+   """if the monster health is zero, then the monster is not able to attack    anymore
+   args: none
+   return: none
+   """
    def get_health(self, amount):
       if self.health < self.max_health:
          self.health += amount
       if self.health >= self.max_health:
          self.health = self.max_health
+   """
+   determines the remaining health of the monster
+   args: none
+   return: none
+   """
 #for getdamage and get healthfunc, must be added to event loop. when monster attacks hero health bar must go down
-   """keeps health inside bar"""
-   #def hero_health(self):
-      #pygmae.draw.rect(screen, (250, 0, 0), (10, 10, self.health/self.health_ratio, 25)
-      #pygame.draw.rect(screen, (250, 250, 250), (10, 10, self.bar_len, 25), 4)
-      #values must be edited for size of window   
+   
  
 

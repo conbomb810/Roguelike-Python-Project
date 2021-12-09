@@ -16,8 +16,12 @@ class healthBar(pygame.sprite.Sprite):
         self.rect.y = y
         self.x = x
         self.y = y
-
     def update(self, hp):
+        """
+        creates a health box using the max health of hero and the current health. The bar values are then updated after each attack.
+        args: none
+        return: none
+        """
         self.health = hp
         if self.health >= 0:
             self.healthStr = f"{self.health} / {self.maxHealth}"
@@ -28,4 +32,5 @@ class healthBar(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
+        
 
