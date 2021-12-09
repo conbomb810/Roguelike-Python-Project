@@ -7,15 +7,15 @@
 
 << [https://github.com/<repo>](#) >>
 
-<< [link to demo presentation slides](#) >>
+<< [](#) >>
 
 ### Team: Middle Team
-#### << Middle team >>
+#### Middle team 
 
 ***
 
 ## Project Description *(Software Lead)*
-<< our project will be a dungeon game that will include randomized enemies and a single hero that can be customized by choosing a different kit/class.>>
+ our project will be a dungeon game that will include randomized enemies and a single hero that can be customized by choosing a different kit/class. It will include different rounds that have different enemies
 
 ***    
 
@@ -34,23 +34,23 @@
 
 ## Program Design *(Backend Specialist)*
 * Non-Standard libraries
-    * << You should have a list of any additional libraries or modules used (pygame, request) beyond non-standard python. >>
+    *  You should have a list of any additional libraries or modules used (pygame, request) beyond non-standard python. 
     * For each additional module you should include
         * url for the module documentation
         * a short description of the module
 * Class Interface Design
-    * << A simple drawing that shows the class relationships in your code (see below for an example). >>
+    *  A simple drawing that shows the class relationships in your code (see below for an example). 
         * ![class diagram](assets/class_diagram.jpg)
     * This does not need to be overly detailed, but should show how your code fits into the Model/View/Controller paradigm.
 * Classes
-    * << You should have a list of each of your classes with a description. >>
+    *  You should have a list of each of your classes with a description. 
 
 ## Project Structure *(Software Lead)*
 
 The Project is broken down into the following file structure:
 * main.py
 * bin
-    *<button.py
+    *button.py
       healthbar.py
       info.json
       controller.py
@@ -61,9 +61,9 @@ The Project is broken down into the following file structure:
       sample_controller.py
       highscore.py
       monster.py
-      score.py >
+      score.py 
 * assets
-    *<battleBackground.jpg
+    *battleBackground.jpg
       gameovermenu.png
       OniDead.png
       battlemenu.png
@@ -80,7 +80,7 @@ The Project is broken down into the following file structure:
       dialogueBoxNew.png
       muramasaTheme.mp3
       victorymenu.png
-      ninja.png>
+      ninja.png
 * etc
     * <.>
 
@@ -89,7 +89,7 @@ The Project is broken down into the following file structure:
 ## Tasks and Responsibilities *(Software Lead)*
 * You must outline the team member roles and who was responsible for each class/method, both individual and collaborative.
 
-### Software Lead - << Conner Smith >>
+### Software Lead -  Conner Smith 
 
 Worked as integration specialist by heavily modifying the sprite classes to fit in the controller and writing aditional functions inside to improve frontend and backend efficiency. Also communicating between backend and frontend to see what minor problems arise and modifying writing code they might need in order to work more efficient together. 
 
@@ -123,8 +123,8 @@ healthbar.py
 manabar.py
 dialoguebox.py
 ## Testing *(Software Lead)*
-* << In our testing we went about it by starting out with the basics of the game and getting the sprite classes we would need. This allowed would allow us to create out event loops more efficiently and add stuff slowly. Our first test was to make sure the sprites were working correctly and we hardcoded the values needed so we could test the basics of our code. After each essential function added, we could implemented a main into that could be called to test the class was working correctly. We would do this many times while we were coding to make sure we were on the right track. Slowly we implemented the controller class to call the additional classes and make sure they would work properly. >>
-    * << while creating the hero class and its functions like the healthbar and attack, a main was implemented to make a small test GUI window that the sprite was then created on. In addition to that the update function for health bar based on damage recieved by a hardcoded value. This ensured that the hero class would properly work for the controller method to make my teammates work more efficiently. >>
+* In our testing we went about it by starting out with the basics of the game and getting the sprite classes we would need. This allowed would allow us to create out event loops more efficiently and add stuff slowly. Our first test was to make sure the sprites were working correctly and we hardcoded the values needed so we could test the basics of our code. After each essential function added, we could implemented a main into that could be called to test the class was working correctly. We would do this many times while we were coding to make sure we were on the right track. Slowly we implemented the controller class to call the additional classes and make sure they would work properly. 
+    *  while creating the hero class and its functions like the healthbar and attack, a main was implemented to make a small test GUI window that the sprite was then created on. In addition to that the update function for health bar based on damage recieved by a hardcoded value. This ensured that the hero class would properly work for the controller method to make my teammates work more efficiently. 
 
 * Your ATP
 
