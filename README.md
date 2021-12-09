@@ -34,16 +34,38 @@
 
 ## Program Design *(Backend Specialist)*
 * Non-Standard libraries
-    * << You should have a list of any additional libraries or modules used (pygame, request) beyond non-standard python. >>
-    * For each additional module you should include
-        * url for the module documentation
-        * a short description of the module
+  Pygame
+https://www.pygame.org/docs/
+Pygame is a free set of python modules designed for writing video games. It allows programmers to create full fledged video games on nearly any platform.
+
+Random
+https://docs.python.org/3/library/random.html
+This module allows programmers access to a pseudo-random number generator. When working with integers, they are randomly selected from a range. Other elements are randomly selected from a list or dictionary.
+
 * Class Interface Design
     * << A simple drawing that shows the class relationships in your code (see below for an example). >>
         * ![class diagram](assets/class_diagram.jpg)
     * This does not need to be overly detailed, but should show how your code fits into the Model/View/Controller paradigm.
 * Classes
-    * << You should have a list of each of your classes with a description. >>
+    * Button
+The button the player clicks to complete actions, to start the game, to quit, and to play the game in general
+-Dialogue box
+This where anything said to the player or between characters is displayed
+-Health Bar
+This displays the status of the player’s health
+-Controller
+Creates and adds functionality to the menus and the battles. Allows the player to fight different enemies with a hero of their choice, while tracking their score, and displaying a victory or defeat screen at the end of the battle.
+-Hero
+Creates the hero object and gives them their attributes like health and damage
+-Monster
+Creates the monster object and gives them their attributes like health and damage 
+-Highscore
+Tracks the highest score a player achieves 
+-Score
+Tracks the score the player accrues throughout the game
+-Manabar
+Displays the status of the player’s mana
+
 
 ## Project Structure *(Software Lead)*
 
@@ -69,9 +91,9 @@ The Project is broken down into the following file structure:
 
 As the Front End Specialist, I did significant research on pygame in general. I specifically delved into everything about the controller class, such as sprites, mixers, sprite groups, and events. I also did a good portion of backend work to make sure the models worked with the controller class. I also did a large amount of research in json formatting and the json module in order to properly use them in both the controller and the highscore.py class.
 
-### Back End Specialist - << name >>
+### Back End Specialist - Adejo Ibrahim
 
-<< The back end specialist... >>
+<< As the Back End Specialist, I did the initial coding of the models and made sure they worked as intended. I created the files for each model and helped the frontend with any problems within the code. >>
 
 ## Testing *(Software Lead)*
 * << In our testing we went about it by starting out with the basics of the game and getting the sprite classes we would need. This allowed would allow us to create out event loops more efficiently and add stuff slowly. Our first test was to make sure the sprites were working correctly and we hardcoded the values needed so we could test the basics of our code. After each essential function added, we could implemented a main into that could be called to test the class was working correctly. We would do this many times while we were coding to make sure we were on the right track. Slowly we implemented the controller class to call the additional classes and make sure they would work properly. >>
